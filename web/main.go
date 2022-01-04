@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// 添加gin框架开发3步骤
+// 添加gin框架开发 3 步骤
 func main() {
 	// 初始化路由
 	router := gin.Default()
