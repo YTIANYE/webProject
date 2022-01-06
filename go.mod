@@ -20,16 +20,19 @@ require (
 	github.com/kr/pretty v0.2.1 // indirect
 	github.com/micro/go-micro v1.18.0
 	github.com/micro/go-plugins v1.5.1
+	github.com/micro/micro/v3 v3.8.0 // indirect
 	github.com/mitchellh/go-testing-interface v1.14.0 // indirect
 	github.com/mitchellh/mapstructure v1.4.1-0.20210112042008-8ebf2d61a8b4 // indirect
-	github.com/onsi/ginkgo v1.11.0 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
 	go.etcd.io/bbolt v1.3.5 // indirect
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
 	golang.org/x/image v0.0.0-20211028202545-6944b10bf410 // indirect
-	golang.org/x/net v0.0.0-20211209124913-491a49abca63 // indirect
+	// golang.org/x/net v0.0.0-20211209124913-491a49abca63 // indirect
 	golang.org/x/sys v0.0.0-20211013075003-97ac67df715c // indirect
 	golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e // indirect
 	google.golang.org/protobuf v1.27.1
 	sigs.k8s.io/yaml v1.2.0 // indirect
+
 )
+
+replace google.golang.org/grpc => google.golang.org/grpc v1.26.0
