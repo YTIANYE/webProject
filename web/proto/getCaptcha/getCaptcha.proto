@@ -12,7 +12,7 @@ service GetCaptcha {
 
 // 传入
 message Request {
-
+  string uuid = 1;//图片验证码 uuid
 }
 
 // 传出
