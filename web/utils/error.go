@@ -6,6 +6,7 @@ const (
 	RECODE_NODATA    = "4002"
 	RECODE_DATAEXIST = "4003"
 	RECODE_DATAERR   = "4004"
+	RECODE_DBWRITERR = "4005"
 
 	RECODE_SESSIONERR = "4101"
 	RECODE_LOGINERR   = "4102"
@@ -34,6 +35,7 @@ var recodeText = map[string]string{
 	RECODE_NODATA:    "无数据",
 	RECODE_DATAEXIST: "数据已存在",
 	RECODE_DATAERR:   "数据错误",
+	RECODE_DBWRITERR: "数据库写入错误",
 
 	RECODE_SESSIONERR: "用户未登录",
 	RECODE_LOGINERR:   "用户登录失败",

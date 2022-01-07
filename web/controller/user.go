@@ -107,6 +107,14 @@ func GetSmscd(ctx *gin.Context) {
 			resp["errno"] = utils.RECODE_OK
 			resp["errmg"] = utils.RecodeText(utils.RECODE_OK)
 			fmt.Println("发送短信成功")
+
+			// 将 电话号：短信验证码 存入 Redis
+			err := model.SaveSmsCode(phone, smsCode)
+			if err != nil {
+				resp["errno"] = utils.RECODE_DBWRITERR
+				resp["errmg"] = utils.RecodeText(utils.RECODE_DBWRITERR)
+				fmt.Println("存储短信验证码到redis失败：", err)
+			}
 		}
 
 	} else {

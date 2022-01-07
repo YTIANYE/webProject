@@ -3,11 +3,15 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"webProject/web/controller"
+	"webProject/web/model"
 )
 
 // 添加gin框架开发 3 步骤
 // main 负责资源路径匹配
 func main() {
+	// 初始化 Redis 连接池
+	model.InitRedis()
+
 	// 初始化路由
 	router := gin.Default()
 
