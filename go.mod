@@ -4,6 +4,9 @@ go 1.14
 
 require (
 	github.com/afocus/captcha v0.0.0-20191010092841-4bd1f21c8868
+	github.com/alibabacloud-go/darabonba-openapi v0.1.14
+	github.com/alibabacloud-go/dysmsapi-20170525/v2 v2.0.8
+	github.com/alibabacloud-go/tea v1.1.17
 	github.com/armon/go-metrics v0.3.10 // indirect
 	github.com/gin-gonic/gin v1.7.7
 	github.com/gogo/protobuf v1.3.2 // indirect
