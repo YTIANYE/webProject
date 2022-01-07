@@ -55,3 +55,16 @@ func GetImageCd(ctx *gin.Context) {
 	fmt.Println("uuid:", uuid)
 
 }
+
+// 获取短信验证码
+func GetSmscd(ctx *gin.Context) {
+	// 获取短信验证码的 uuid
+	phone := ctx.Param("phone")
+
+	// 拆分 GET 请求中的 URL   === 格式： 资源路径 ？key=value&key=value&key=value
+	imgCode := ctx.Query("text")
+	uuid := ctx.Query("id")
+
+	fmt.Println("---out---:", phone, imgCode, uuid)
+
+}
