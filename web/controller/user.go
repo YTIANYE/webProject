@@ -65,6 +65,10 @@ func GetSmscd(ctx *gin.Context) {
 	imgCode := ctx.Query("text")
 	uuid := ctx.Query("id")
 
-	fmt.Println("---out---:", phone, imgCode, uuid)
+	fmt.Println("---out---:", "phone:", phone, "imgCode:", imgCode, "uuid", uuid)
+
+	// 校验图片验证码
+
+	// 发送短信
 
 }
