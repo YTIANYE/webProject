@@ -9,6 +9,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/golang/protobuf v1.5.2
+	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/hashicorp/consul/api v1.11.0 // indirect
 	github.com/hashicorp/go-hclog v0.14.1 // indirect

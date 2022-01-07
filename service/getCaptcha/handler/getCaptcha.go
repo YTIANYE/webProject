@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/afocus/captcha"
+	"webProject/service/getCaptcha/model"
 
 	"image/color"
 
@@ -42,8 +43,17 @@ func (e *GetCaptcha) Call(ctx context.Context, req *getCaptcha.Request, rsp *get
 	img, str := cap.Create(4, captcha.NUM)
 	fmt.Println("生成的验证码 str:", str)
 
+	// 存储图片验证码到redis中
+	err := model.SaveImgCode(str, req.Uuid)
+	if err != nil {
+		return err
+	}
+
 	// 将生成的图片序列化
-	imgBuf, _ := json.Marshal(img)
+	imgBuf, err := json.Marshal(img)
+	if err != nil {
+		return err
+	}
 
 	// 将 imgBuf 使用参数 rsp 传出
 	rsp.Img = imgBuf
