@@ -19,7 +19,7 @@ func main() {
 	// New Service   ---   指定consul
 	service := micro.NewService(
 
-		micro.Address("192.168.17.129:12341"), // 指定固定端口
+		micro.Address("192.168.17.129:12342"), // 指定固定端口 不同微服务之间要区分端口号
 		micro.Name("go.micro.srv.user"),
 		micro.Registry(consulReg), //注册服务
 		micro.Version("latest"),
