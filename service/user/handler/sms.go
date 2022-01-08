@@ -1,5 +1,5 @@
 // This file is auto-generated, don't edit it. Thanks.
-package controller
+package handler
 
 import (
 	"github.com/alibabacloud-go/tea/tea"

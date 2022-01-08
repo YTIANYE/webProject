@@ -21,12 +21,6 @@ func main() {
 		micro.Version("latest"),
 	)
 
-	// New Service
-	service := micro.NewService(
-		micro.Name("go.micro.srv.user"),
-		micro.Version("latest"),
-	)
-
 	// Register Handler
 	user.RegisterUserHandler(service.Server(), new(handler.User))
 
