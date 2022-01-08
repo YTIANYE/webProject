@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package go.micro.srv.user;
+
+option go_package = "/proto/user";  //防止错误 protoc-gen-go: unable to determine Go import path
+
+service User {
+	rpc SendSms(Request) returns (Response) {}
+}
+
+// 传入
+message Request {
+	string phone = 1;
+	string imgCode = 2;
+	string uuid = 3;
+}
+
+// 传出
+message Response {
+	string errno = 1;
+	string errmsg = 2;
+}
