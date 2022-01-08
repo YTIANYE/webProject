@@ -3,14 +3,14 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"webProject/web/controller"
-	"webProject/web/model"
+	// "webProject/web/model"
 )
 
 // 添加gin框架开发 3 步骤
 // main 负责资源路径匹配
 func main() {
-	// 初始化 Redis 连接池
-	model.InitRedis()
+	//// 初始化 Redis 连接池
+	//model.InitRedis()
 
 	// 初始化路由
 	router := gin.Default()
@@ -29,6 +29,7 @@ func main() {
 		r1.GET("session", controller.GetSesion)
 		r1.GET("/imagecode/:uuid", controller.GetImageCd)
 		r1.GET("/smscode/:phone", controller.GetSmscd)
+		r1.POST("/users", controller.PostRet)
 	}
 
 	/*	// 处理 Session
