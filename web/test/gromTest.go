@@ -5,18 +5,30 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"time"
 )
 
-/*// 创建全局结构体
+/*
+// 创建全局结构体
 type Student struct {
 	Id   int //[在grom中Id字段]成为默认的主键，自增长   ---   主键索引，查询速度快
 	Name string
 	Age  int
 }*/
-type Student struct {
+
+/*type Student struct {
 	gorm.Model // golang中，匿名成员 --- 继承！   gorm自动维护
 	Name       string
 	Age        int
+}*/
+
+// 创建全局结构体
+type Student struct {
+	Id    int    //[在grom中Id字段]成为默认的主键，自增长   ---   主键索引，查询速度快
+	Name  string `gorm:"size:100;default:'xiaoming'"` // string -- varcha  默认大小255.可以在创建表时，指定表的大小。默认值 xiaoming
+	Age   int
+	Class int       `gorm:"not null"`
+	Join  time.Time `gorm:"type:timestamp"` // 创建 Student 表指定 timestamp类型。
 }
 
 // 创建全局连接池句柄
@@ -25,7 +37,7 @@ var GlobalConn *gorm.DB
 func main() {
 
 	// 连接数据库---获取连接池句柄   --- 格式： 用户名：密码@协议（IP：port）/数据库名
-	conn, err := gorm.Open("mysql", "tian:password@tcp(127.0.0.1:3306)/test")
+	conn, err := gorm.Open("mysql", "tian:password@tcp(127.0.0.1:3306)/test?parseTime=True&loc=Local")
 	if err != nil {
 		fmt.Println("grom.Open err:", err)
 		return
@@ -38,9 +50,9 @@ func main() {
 
 	GlobalConn.SingularTable(true) // 不要复数表名
 
-	//// 借助 grom 创建数据库表
-	//fmt.Println(GlobalConn.AutoMigrate(new(Student)).Error) // 执行创建过程打印结果
-	//
+	// 借助 grom 创建数据库表
+	fmt.Println(GlobalConn.AutoMigrate(new(Student)).Error) // 执行创建过程打印结果
+
 	//// 插入数据
 	//InsertData()
 
@@ -50,8 +62,8 @@ func main() {
 	//// 更新数据
 	//UpdateDate()
 
-	// 删除数据
-	DeleteData()
+	//// 删除数据
+	//DeleteData()
 
 }
 
