@@ -12,15 +12,12 @@ func main() {
 	//// 初始化 Redis 连接池
 	//model.InitRedis()
 
+	//// 初始化 MySQL 链接池
+	//model.InitDb()
+
 	// 初始化路由
 	router := gin.Default()
 
-	// 路由匹配
-	/*	router.GET("/", func(context *gin.Context) {
-		context.Writer.WriteString("项目开始了......")
-	})*/
-
-	// router.Static("/", "web/view")                        //加载静态资源
 	router.Static("/home", "web/view") //加载静态资源
 
 	// 添加路由分组

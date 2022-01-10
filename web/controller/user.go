@@ -89,12 +89,7 @@ func GetSmscd(ctx *gin.Context) {
 
 // 发送注册信息
 func PostRet(ctx *gin.Context) {
-	/*	// 默认 postForm() 方法 只能获取 form 表单传递的数据。
-		mobile := ctx.PostForm("mobile")
-		pwd := ctx.PostForm("password")
-		sms_code := ctx.PostForm("sms_code")
-		fmt.Println("请求： mobile=", mobile, "pwd=", pwd, "sms_code=", sms_code)
-	*/
+
 	// 获取数据
 	var regData struct {
 		Mobile   string `json:"mobile"`
@@ -105,4 +100,22 @@ func PostRet(ctx *gin.Context) {
 
 	fmt.Println("获取到的数据为:", regData)
 
+	// 初始化consul
+	microService := utils.InitMicro()
+
+	// 初始化客户端
+	microClient := userMicro.NewUserService("go.micro.srv.user", microService.Client())
+
+	// 调用远程函数
+	resp, err := microClient.Register(context.TODO(), &userMicro.RegReq{
+		Mobile:   regData.Mobile,
+		SmsCode:  regData.SmsCode,
+		Password: regData.PassWord,
+	})
+	if err != nil {
+		fmt.Println("注册用户, 找不到远程服务!", err)
+		return
+	}
+	// 写给浏览器
+	ctx.JSON(http.StatusOK, resp)
 }
