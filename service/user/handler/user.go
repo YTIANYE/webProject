@@ -73,3 +73,29 @@ func (e *User) SendSms(ctx context.Context, req *user.Request, rsp *user.Respons
 
 	return nil
 }
+
+func (e *User) Register(ctx context.Context, req *user.RegReq, rsp *user.Response) error {
+	// 校验名短信验证码是否正确（短信验证码存储在redis中）
+	err := model.CheakSmsCode(req.Mobile, req.SmsCode)
+	if err != nil {
+		fmt.Println("短信验证码错误")
+		rsp.Errno = utils.RECODE_CHECKMSMERR
+		rsp.Errmsg = utils.RecodeText(utils.RECODE_CHECKMSMERR)
+		return err
+	}
+
+	// 校验正确，注册用户，将数据写入MySQL数据库
+	err = model.RegisterUser(req.Mobile, req.Password)
+	if err != nil {
+		fmt.Println("写入数据库错误")
+		rsp.Errno = utils.RECODE_DBERR
+		rsp.Errmsg = utils.RecodeText(utils.RECODE_DBERR)
+		return err
+	} else {
+		fmt.Println("写入数据库成功")
+		rsp.Errno = utils.RECODE_OK
+		rsp.Errmsg = utils.RecodeText(utils.RECODE_OK)
+	}
+
+	return nil
+}
