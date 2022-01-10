@@ -24,6 +24,8 @@ func (e *User) SendSms(ctx context.Context, req *user.Request, rsp *user.Respons
 	// 校验图片验证码 是否正确
 	result := model.CheckImgCode(req.Uuid, req.ImgCode)
 	if result {
+		fmt.Println("图片验证码校验成功")
+
 		// 发送短信
 		client, _err := CreateClient(tea.String("LTAI5tNjSPYJNT4wyTbWzYLr"), tea.String("B3R0SpewZr83NCyDVuiPlPDQwk4hYj"))
 		if _err != nil {
@@ -61,6 +63,8 @@ func (e *User) SendSms(ctx context.Context, req *user.Request, rsp *user.Respons
 				rsp.Errno = utils.RECODE_DBWRITERR
 				rsp.Errmsg = utils.RecodeText(utils.RECODE_DBWRITERR)
 				fmt.Println("存储短信验证码到redis失败：", err)
+			} else {
+				fmt.Println("存储短信验证码到redis成功")
 			}
 		}
 
@@ -76,7 +80,25 @@ func (e *User) SendSms(ctx context.Context, req *user.Request, rsp *user.Respons
 
 func (e *User) Register(ctx context.Context, req *user.RegReq, rsp *user.Response) error {
 	// 校验名短信验证码是否正确（短信验证码存储在redis中）
+	err := model.CheckSmsCode(req.Mobile, req.SmsCode)
+	if err != nil {
+		fmt.Println("短信验证码错误")
+		rsp.Errno = utils.RECODE_CHECKMSMERR
+		rsp.Errmsg = utils.RecodeText(utils.RECODE_CHECKMSMERR)
+		return err
+	}
 
 	// 校验正确，注册用户，将数据写入MySQL数据库
-
+	err = model.RegisterUser(req.Mobile, req.Password)
+	if err != nil {
+		fmt.Println("写入数据库错误")
+		rsp.Errno = utils.RECODE_DBERR
+		rsp.Errmsg = utils.RecodeText(utils.RECODE_DBERR)
+		return err
+	} else {
+		fmt.Println("写入数据库成功")
+		rsp.Errno = utils.RECODE_OK
+		rsp.Errmsg = utils.RecodeText(utils.RECODE_OK)
+	}
+	return nil
 }

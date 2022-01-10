@@ -13,7 +13,7 @@ func main() {
 	// 初始化 Redis 连接池
 	model.InitRedis()
 
-	// 初始化 mySQL 连接池
+	// 初始化 MySQL 链接池
 	model.InitDb()
 
 	// 初始化consul
