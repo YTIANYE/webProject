@@ -5,17 +5,24 @@ package go.micro.srv.user;
 option go_package = "/proto/user";  //防止错误 protoc-gen-go: unable to determine Go import path
 
 service User {
-	rpc SendSms(Request) returns (Response) {}
+	rpc SendSms(Request) returns (Response) {}// 发送短信验证码的服务
+	rpc Register(RegReq) returns (Response){};// 注册服务
+}
+// 注册服务 传入
+message RegReq{
+	string mobile = 1;
+	string password = 2;
+	string sms_code = 3;
 }
 
-// 传入
+// 短信验证码服务 传入
 message Request {
 	string phone = 1;
 	string imgCode = 2;
 	string uuid = 3;
 }
 
-// 传出
+// 短信验证码服务/注册服务 传出
 message Response {
 	string errno = 1;
 	string errmsg = 2;
