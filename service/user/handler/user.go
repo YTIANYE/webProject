@@ -73,3 +73,10 @@ func (e *User) SendSms(ctx context.Context, req *user.Request, rsp *user.Respons
 
 	return nil
 }
+
+func (e *User) Register(ctx context.Context, req *user.RegReq, rsp *user.Response) error {
+	// 校验名短信验证码是否正确（短信验证码存储在redis中）
+
+	// 校验正确，注册用户，将数据写入MySQL数据库
+
+}
