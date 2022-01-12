@@ -10,6 +10,7 @@ import (
 	"github.com/micro/go-plugins/registry/consul"
 	"image/png"
 	"net/http"
+	"webProject/web/model"
 	"webProject/web/proto/getCaptcha"
 	userMicro "webProject/web/proto/user"
 	"webProject/web/utils"
@@ -117,5 +118,26 @@ func PostRet(ctx *gin.Context) {
 		return
 	}
 	// 写给浏览器
+	ctx.JSON(http.StatusOK, resp)
+}
+
+// 获取地域信息
+func GetArea(ctx *gin.Context) {
+	// 先从MySQL中获取数据.
+	var areas []model.Area
+
+	model.GlobalConn.Find(&areas)
+
+	// 再把数据写入到 redis 中.
+	conn := model.RedisPool.Get() // 获取链接
+	conn.Do("set", "areaData", areas)
+
+	resp := make(map[string]interface{})
+
+	resp["errno"] = utils.RECODE_OK
+	resp["errmsg"] = utils.RecodeText(utils.RECODE_OK)
+	resp["data"] = areas
+	fmt.Println("resp:", resp)
+
 	ctx.JSON(http.StatusOK, resp)
 }
