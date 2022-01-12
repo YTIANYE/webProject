@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
 	"webProject/web/controller"
 	"webProject/web/model"
@@ -19,8 +21,14 @@ func main() {
 	// 初始化路由
 	router := gin.Default()
 
-	router.Static("/home", "web/view") //加载静态资源
+	// 初始化容器
+	store, _ := redis.NewStore(10, "tcp", "192.168.17.129:6379", "", []byte("webProject"))
 
+	// 使用容器
+	router.Use(sessions.Sessions("mysession", store))
+
+	//加载静态资源
+	router.Static("/home", "web/view")
 	// 添加路由分组
 	r1 := router.Group("/api/v1.0")
 	{
@@ -29,6 +37,7 @@ func main() {
 		r1.GET("/smscode/:phone", controller.GetSmscd)
 		r1.POST("/users", controller.PostRet)
 		r1.GET("/areas", controller.GetArea)
+		r1.POST("/sessions", controller.PostLogin)
 	}
 
 	/*	// 处理 Session

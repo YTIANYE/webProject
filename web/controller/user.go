@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/afocus/captcha"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gomodule/redigo/redis"
 	"github.com/micro/go-micro"
@@ -141,7 +142,7 @@ func GetArea(ctx *gin.Context) {
 		conn.Do("set", "areaData", areaBuf)
 	} else { // redis 中有数据
 		fmt.Println("从redis中获取数据")
-		
+
 		json.Unmarshal(areaData, &areas) //反序列化
 
 	}
@@ -152,6 +153,38 @@ func GetArea(ctx *gin.Context) {
 	resp["errmsg"] = utils.RecodeText(utils.RECODE_OK)
 	resp["data"] = areas
 	fmt.Println("resp:", resp)
+
+	ctx.JSON(http.StatusOK, resp)
+}
+
+// 处理登陆业务
+func PostLogin(ctx *gin.Context) {
+	// 获取前端数据
+	var loginData struct {
+		Mobile   string `json:"mobile"`
+		PassWord string `json:"password"`
+	}
+	ctx.Bind(&loginData)
+
+	resp := make(map[string]interface{})
+
+	// 获取数据库数据，查询是否和输入的数据匹配
+	userName, err := model.Login(loginData.Mobile, loginData.PassWord)
+	if err == nil {
+		// 登录成功
+		resp["errno"] = utils.RECODE_OK
+		resp["errmg"] = utils.RecodeText(utils.RECODE_OK)
+
+		// 将 登录状态，保存在Session中
+		s := sessions.Default(ctx) //初始化session
+		s.Set("useName", userName) // 将用户名设置到session中
+		s.Save()
+
+	} else {
+		// 登录失败
+		resp["errno"] = utils.RECODE_LOGINERR
+		resp["errmg"] = utils.RecodeText(utils.RECODE_LOGINERR)
+	}
 
 	ctx.JSON(http.StatusOK, resp)
 }

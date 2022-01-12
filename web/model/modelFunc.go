@@ -79,15 +79,33 @@ func CheckSmsCode(phone, code string) error {
 // 注册用户信息,写 MySQL 数据库.
 func RegisterUser(mobile, pwd string) error {
 	var user User
-	user.Name = mobile		// 默认使用手机号作为用户名
+	user.Name = mobile // 默认使用手机号作为用户名
 
 	// 使用 md5 对 pwd 加密
-	m5 := md5.New()			// 初始md5对象
-	m5.Write([]byte(pwd))			// 将 pwd 写入缓冲区
-	pwd_hash := hex.EncodeToString(m5.Sum(nil))	// 不使用额外的秘钥
+	m5 := md5.New()                             // 初始md5对象
+	m5.Write([]byte(pwd))                       // 将 pwd 写入缓冲区
+	pwd_hash := hex.EncodeToString(m5.Sum(nil)) // 不使用额外的秘钥
 
 	user.Password_hash = pwd_hash
 
 	// 插入数据到MySQL
 	return GlobalConn.Create(&user).Error
+}
+
+// 处理登录业务，根据手机号和密码获取用户名
+func Login(mobile, pwd string) (string, error) {
+	var user User
+
+	// 对pwd做md5 hash
+	m5 := md5.New()
+	m5.Write([]byte(pwd))
+	pwd_hash := hex.EncodeToString(m5.Sum(nil))
+
+	// 查询
+	err := GlobalConn.Where("mobile = ?", mobile).
+		Where("password_hash = ?", pwd_hash).
+		Select("name").
+		Find(&user).Error
+
+	return user.Name, err
 }
