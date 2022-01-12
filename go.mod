@@ -8,6 +8,7 @@ require (
 	github.com/alibabacloud-go/dysmsapi-20170525/v2 v2.0.8
 	github.com/alibabacloud-go/tea v1.1.17
 	github.com/armon/go-metrics v0.3.10 // indirect
+	github.com/gin-contrib/sessions v0.0.4 // indirect
 	github.com/gin-gonic/gin v1.7.7
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
