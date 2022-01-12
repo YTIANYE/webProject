@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/afocus/captcha"
 	"github.com/gin-gonic/gin"
+	"github.com/gomodule/redigo/redis"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-plugins/registry/consul"
 	"image/png"
@@ -123,14 +124,27 @@ func PostRet(ctx *gin.Context) {
 
 // 获取地域信息
 func GetArea(ctx *gin.Context) {
-	// 先从MySQL中获取数据.
+	// 从缓存redis, 中获取数据
+	conn := model.RedisPool.Get()
+	// 当初使用“字节切片”，现在使用切片类型接收
+	areaData, _ := redis.Bytes(conn.Do("get", "areaData"))
+
 	var areas []model.Area
+	if len(areaData) == 0 { // 没有从redis中获取数据
+		fmt.Println("从mysql中获取数据")
 
-	model.GlobalConn.Find(&areas)
+		// 先从MySQL中获取数据.
+		model.GlobalConn.Find(&areas)
 
-	// 再把数据写入到 redis 中.
-	conn := model.RedisPool.Get() // 获取链接
-	conn.Do("set", "areaData", areas)
+		// 再把数据写入到 redis 中.  存储结构体序列化后的JSON串
+		areaBuf, _ := json.Marshal(areas)
+		conn.Do("set", "areaData", areaBuf)
+	} else { // redis 中有数据
+		fmt.Println("从redis中获取数据")
+		
+		json.Unmarshal(areaData, &areas) //反序列化
+
+	}
 
 	resp := make(map[string]interface{})
 
