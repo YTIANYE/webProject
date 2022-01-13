@@ -102,6 +102,7 @@ func Login(mobile, pwd string) (string, error) {
 	pwd_hash := hex.EncodeToString(m5.Sum(nil))
 
 	// 查询
+	// 相当于 select name from user where mobil = xxx and password_hash = xxx ;
 	err := GlobalConn.Where("mobile = ?", mobile).
 		Where("password_hash = ?", pwd_hash).
 		Select("name").

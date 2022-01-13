@@ -32,7 +32,7 @@ func main() {
 	// 添加路由分组
 	r1 := router.Group("/api/v1.0")
 	{
-		r1.GET("session", controller.GetSesion)
+		r1.GET("session", controller.GetSession)
 		r1.GET("/imagecode/:uuid", controller.GetImageCd)
 		r1.GET("/smscode/:phone", controller.GetSmscd)
 		r1.POST("/users", controller.PostRet)

@@ -19,11 +19,38 @@ import (
 )
 
 // 获取 session 信息
-func GetSesion(ctx *gin.Context) {
+/*func GetSession(ctx *gin.Context) {
 	// 初始化一个错误返回的 map
 	resp := make(map[string]string)
 	resp["errno"] = utils.RECODE_SESSIONERR
 	resp["errmsg"] = utils.RecodeText(utils.RECODE_SESSIONERR)
+
+	ctx.JSON(http.StatusOK, resp)
+}*/
+func GetSession(ctx *gin.Context) {
+	resp := make(map[string]interface{})
+
+	// 获取 Session数据
+	session := sessions.Default(ctx) // 初始化Session 对象
+	userName := session.Get("userName")
+
+	if userName == nil {
+		// 用户没有登录   ---   没有存在MySQL中， 也没存在session中
+		fmt.Println("用户不存在")
+		resp["errno"] = utils.RECODE_SESSIONERR
+		resp["errmsg"] = utils.RecodeText(utils.RECODE_SESSIONERR)
+	} else {
+		// 用户存在
+		fmt.Println("用户存在")
+		resp["errno"] = utils.RECODE_OK
+		resp["errmsg"] = utils.RecodeText(utils.RECODE_OK)
+
+		var nameData struct {
+			Name string `json:"name"`
+		}
+		nameData.Name = userName.(string) // 类型断言
+		resp["data"] = nameData
+	}
 
 	ctx.JSON(http.StatusOK, resp)
 }
@@ -176,8 +203,8 @@ func PostLogin(ctx *gin.Context) {
 		resp["errmg"] = utils.RecodeText(utils.RECODE_OK)
 
 		// 将 登录状态，保存在Session中
-		s := sessions.Default(ctx) //初始化session
-		s.Set("useName", userName) // 将用户名设置到session中
+		s := sessions.Default(ctx)  //初始化session
+		s.Set("userName", userName) // 将用户名设置到session中				// 注意不要写错啊，找了半天的bug,get总为nil
 		s.Save()
 
 	} else {

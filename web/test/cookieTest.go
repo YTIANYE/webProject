@@ -45,8 +45,8 @@ func sessionTest() {
 		// 调用session设置session数据
 		session := sessions.Default(context)
 
-		//设置session
-		/*		session.Set("key", "value")
+		/*		//设置session
+				session.Set("key", "value")
 				// 修改session时，需要Save，否则不生效
 				session.Save()*/
 
