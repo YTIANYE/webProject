@@ -110,3 +110,18 @@ func Login(mobile, pwd string) (string, error) {
 
 	return user.Name, err
 }
+
+// 获取用户信息
+func GetUserInfo(userName string) (User, error) {
+
+	// 实现 SQL select * from user where name = userName;
+	var user User
+	err := GlobalConn.Where("name = ?", userName).First(&user).Error
+	return user, err
+}
+
+// 更新用户名
+func UpdateUserName(newName, oldName string) error {
+	// update user set name = 'username01' where name = 旧用户名
+	return GlobalConn.Model(new(User)).Where("name = ?", oldName).Update("name", newName).Error
+}

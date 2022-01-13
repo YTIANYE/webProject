@@ -39,6 +39,8 @@ func main() {
 		r1.GET("/areas", controller.GetArea)
 		r1.POST("/sessions", controller.PostLogin)
 		r1.DELETE("/session", controller.DeleteSession)
+		r1.GET("/user", controller.GetUserInfo)
+		r1.PUT("/user/name", controller.PutUserInfo)
 	}
 
 	/*	// 处理 Session
