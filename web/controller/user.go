@@ -215,3 +215,28 @@ func PostLogin(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, resp)
 }
+
+// 退出登录
+func DeleteSession(ctx *gin.Context) {
+
+	resp := make(map[string]interface{})
+
+	// 初始化 Session 对象
+	session := sessions.Default(ctx)
+
+	// 删除session数据
+	session.Delete("userName") // 没有返回值
+
+	// 必须使用Save()保存
+	err := session.Save() //有返回值
+	if err != nil {
+		// 退出失败
+		resp["errno"] = utils.RECODE_LOGOUTERR
+		resp["errmg"] = utils.RecodeText(utils.RECODE_LOGOUTERR)
+	} else {
+		resp["errno"] = utils.RECODE_OK
+		resp["errmg"] = utils.RecodeText(utils.RECODE_OK)
+	}
+
+	ctx.JSON(http.StatusOK, resp)
+}

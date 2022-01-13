@@ -19,6 +19,7 @@ const (
 	RECODE_MOBILEERR   = "4109"
 	RECODE_CHECKERR    = "4110"
 	RECODE_CHECKMSMERR = "4111"
+	RECODE_LOGOUTERR   = "4112"
 
 	RECODE_REQERR = "4201"
 	RECODE_IPERR  = "4202"
@@ -49,6 +50,7 @@ var recodeText = map[string]string{
 	RECODE_MOBILEERR:   "手机号错误",
 	RECODE_CHECKERR:    "校验失败",
 	RECODE_CHECKMSMERR: "短信验证码错误",
+	RECODE_LOGOUTERR:   "用户退出错误",
 
 	RECODE_REQERR: "非法请求或请求次数受限",
 	RECODE_IPERR:  "IP受限",
