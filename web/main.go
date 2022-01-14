@@ -47,7 +47,7 @@ func main() {
 	router.Static("/home", "web/view")
 	// 添加路由分组
 	r1 := router.Group("/api/v1.0")
-	{
+	{ //注意 方法名和路径一定都要写正确
 		r1.GET("session", controller.GetSession)
 		r1.GET("/imagecode/:uuid", controller.GetImageCd)
 		r1.GET("/smscode/:phone", controller.GetSmscd)
@@ -60,6 +60,7 @@ func main() {
 		r1.DELETE("/session", controller.DeleteSession)
 		r1.GET("/user", controller.GetUserInfo)
 		r1.PUT("/user/name", controller.PutUserInfo)
+		r1.POST("/user/avatar", controller.PostAvatar)
 	}
 
 	/*	// 处理 Session

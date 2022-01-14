@@ -326,3 +326,16 @@ func PutUserInfo(ctx *gin.Context) {
 	resp["data"] = nameData
 
 }
+
+//  上传头像
+func PostAvatar(ctx *gin.Context) {
+
+	// 获取图片文件，得到静态文件对象
+	file, _ := ctx.FormFile("avatar")
+
+	// 上传文件到项目中
+	err := ctx.SaveUploadedFile(file, "web/img/"+file.Filename)
+	if err != nil {
+		fmt.Println("上传文件到项目中错误：", err)
+	}
+}
