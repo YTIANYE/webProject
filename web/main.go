@@ -9,6 +9,22 @@ import (
 	// "webProject/web/model"
 )
 
+// 校验session 的 中间件
+
+func LoginFilter() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 初始化 Session对象
+		s := sessions.Default(ctx)
+		userName := s.Get("userName")
+
+		if userName == nil {
+			ctx.Abort() // 从这里返回，不必继续执行
+		} else {
+			ctx.Next() // 继续向下
+		}
+	}
+}
+
 // 添加gin框架开发 3 步骤
 // main 负责资源路径匹配
 func main() {
@@ -38,6 +54,9 @@ func main() {
 		r1.POST("/users", controller.PostRet)
 		r1.GET("/areas", controller.GetArea)
 		r1.POST("/sessions", controller.PostLogin)
+
+		r1.Use(LoginFilter()) // 以后的路由都不需要校验 Session 了，直接获取数据即可
+
 		r1.DELETE("/session", controller.DeleteSession)
 		r1.GET("/user", controller.GetUserInfo)
 		r1.PUT("/user/name", controller.PutUserInfo)
