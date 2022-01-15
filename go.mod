@@ -30,6 +30,7 @@ require (
 	github.com/mitchellh/go-testing-interface v1.14.0 // indirect
 	github.com/mitchellh/mapstructure v1.4.1-0.20210112042008-8ebf2d61a8b4 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
+	github.com/tedcy/fdfs_client v0.0.0-20200106031142-21a04994525a
 	go.etcd.io/bbolt v1.3.5 // indirect
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
 	golang.org/x/image v0.0.0-20211028202545-6944b10bf410 // indirect

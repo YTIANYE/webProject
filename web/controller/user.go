@@ -10,8 +10,10 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-plugins/registry/consul"
+	"github.com/tedcy/fdfs_client"
 	"image/png"
 	"net/http"
+	"path"
 	"webProject/web/model"
 	"webProject/web/proto/getCaptcha"
 	userMicro "webProject/web/proto/user"
@@ -334,8 +336,39 @@ func PostAvatar(ctx *gin.Context) {
 	file, _ := ctx.FormFile("avatar")
 
 	// 上传文件到项目中
-	err := ctx.SaveUploadedFile(file, "web/img/"+file.Filename)
+	/*	err := ctx.SaveUploadedFile(file, "web/img/"+file.Filename)
+		if err != nil {
+			fmt.Println("上传文件到项目中错误：", err)
+		}*/
+
+	// 上传头像到fastdfs中
+	clt, _ := fdfs_client.NewClientWithConfig("/etc/fdfs/client.conf")
+
+	// 打开文件读取内容
+	f, _ := file.Open() // 只读打开
+
+	buf := make([]byte, file.Size) // 按文件世纪大小，创建切片
+
+	f.Read(buf) //读取文件内容， 保存至buf缓冲区
+
+	// go语言根据文件名获取文件后缀
+	fileExt := path.Ext(file.Filename) //传文件名， 获取文件后缀   ----  带有“.”
+
+	// 按字节流上传图片内容
+	remoteId, err := clt.UploadByBuffer(buf, fileExt[1:])
 	if err != nil {
-		fmt.Println("上传文件到项目中错误：", err)
+		fmt.Println("图片上传错误：", err)
 	}
+
+	resp := make(map[string]interface{})
+
+	resp["errno"] = utils.RECODE_OK
+	resp["errmsg"] = utils.RecodeText(utils.RECODE_OK)
+
+	temp := make(map[string]interface{})
+	temp["avatar_url"] = "http://192.168.17.129:8888/" + remoteId
+	resp["data"] = temp
+
+	ctx.JSON(http.StatusOK, resp)
+
 }
