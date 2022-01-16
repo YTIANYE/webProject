@@ -1,0 +1,21 @@
+启动consul服务
+congsul agent -dev
+
+启动mysql
+mysql -u tian -p
+
+启动redis
+sudo systemctl status redis-server
+查看redis
+redis-cli -h 192.168.17.129 -p 6379 --raw
+
+启动fastdfs
+sudo fdfs_storaged /etc/fdfs/storage.conf
+sudo fdfs_trackerd /etc/fdfs/tracker.conf
+查看
+ps aux | grep fdfs
+
+启动nginx
+sudo /usr/local/nginx/sbin/nginx
+查看
+ps aux | grep nginx
