@@ -280,7 +280,7 @@ func GetUserInfo(ctx *gin.Context) {
 	temp["mobile"] = user.Mobile
 	temp["real_name"] = user.Real_name
 	temp["id_card"] = user.Id_card
-	temp["avatar_url"] = user.Avatar_url
+	temp["avatar_url"] = "http://192.168.17.129:8888/" + user.Avatar_url
 
 	resp["data"] = temp
 
@@ -360,11 +360,15 @@ func PostAvatar(ctx *gin.Context) {
 		fmt.Println("图片上传错误：", err)
 	}
 
-	resp := make(map[string]interface{})
+	// 获取session, 得到当前用户
+	userName := sessions.Default(ctx).Get("userName")
 
+	// 根据用户名，更新用户头像    ----   MySQL数据库
+	model.UpdateAvatar(userName.(string), remoteId)
+
+	resp := make(map[string]interface{})
 	resp["errno"] = utils.RECODE_OK
 	resp["errmsg"] = utils.RecodeText(utils.RECODE_OK)
-
 	temp := make(map[string]interface{})
 	temp["avatar_url"] = "http://192.168.17.129:8888/" + remoteId
 	resp["data"] = temp

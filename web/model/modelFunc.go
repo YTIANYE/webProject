@@ -125,3 +125,10 @@ func UpdateUserName(newName, oldName string) error {
 	// update user set name = 'username01' where name = 旧用户名
 	return GlobalConn.Model(new(User)).Where("name = ?", oldName).Update("name", newName).Error
 }
+
+// 根据用户名，更新用户头像
+func UpdateAvatar(userName, avatar string) error {
+	// update user set avatar_url = avatar, where name = username
+	return GlobalConn.Model(new(User)).Where("name = ?", userName).Update("avatar_url", avatar).Error
+
+}
