@@ -21,6 +21,7 @@ import (
 )
 
 // 获取 session 信息
+
 /*func GetSession(ctx *gin.Context) {
 	// 初始化一个错误返回的 map
 	resp := make(map[string]string)
@@ -29,6 +30,7 @@ import (
 
 	ctx.JSON(http.StatusOK, resp)
 }*/
+
 func GetSession(ctx *gin.Context) {
 	resp := make(map[string]interface{})
 
@@ -58,6 +60,7 @@ func GetSession(ctx *gin.Context) {
 }
 
 // 获取图片信息
+
 func GetImageCd(ctx *gin.Context) {
 	// 获取图片验证码的 uuid
 	uuid := ctx.Param("uuid")
@@ -90,6 +93,7 @@ func GetImageCd(ctx *gin.Context) {
 }
 
 // 获取短信验证码
+
 func GetSmscd(ctx *gin.Context) {
 	// 获取短信验证码的 uuid
 	phone := ctx.Param("phone")
@@ -120,6 +124,7 @@ func GetSmscd(ctx *gin.Context) {
 }
 
 // 发送注册信息
+
 func PostRet(ctx *gin.Context) {
 
 	// 获取数据
@@ -153,6 +158,7 @@ func PostRet(ctx *gin.Context) {
 }
 
 // 获取地域信息
+
 func GetArea(ctx *gin.Context) {
 	// 从缓存redis, 中获取数据
 	conn := model.RedisPool.Get()
@@ -187,6 +193,7 @@ func GetArea(ctx *gin.Context) {
 }
 
 // 处理登陆业务
+
 func PostLogin(ctx *gin.Context) {
 	// 获取前端数据
 	var loginData struct {
@@ -219,6 +226,7 @@ func PostLogin(ctx *gin.Context) {
 }
 
 // 退出登录
+
 func DeleteSession(ctx *gin.Context) {
 
 	resp := make(map[string]interface{})
@@ -243,7 +251,8 @@ func DeleteSession(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, resp)
 }
 
-// 获取用户的基本信息
+// 获取用户的基本信息  // 检查用户实名认证
+
 func GetUserInfo(ctx *gin.Context) {
 
 	resp := make(map[string]interface{})
@@ -287,6 +296,7 @@ func GetUserInfo(ctx *gin.Context) {
 }
 
 // 更新用户名
+
 func PutUserInfo(ctx *gin.Context) {
 	// 从session获取当前用户名
 	session := sessions.Default(ctx) // 初始化一个session对象
@@ -324,12 +334,11 @@ func PutUserInfo(ctx *gin.Context) {
 
 	resp["errno"] = utils.RECODE_OK
 	resp["errmg"] = utils.RecodeText(utils.RECODE_OK)
-
 	resp["data"] = nameData
-
 }
 
 //  上传头像
+
 func PostAvatar(ctx *gin.Context) {
 
 	// 获取图片文件，得到静态文件对象
@@ -373,6 +382,42 @@ func PostAvatar(ctx *gin.Context) {
 	temp["avatar_url"] = "http://192.168.17.129:8888/" + remoteId
 	resp["data"] = temp
 
+	ctx.JSON(http.StatusOK, resp)
+
+}
+
+// 保存用户实名认证信息
+
+func PutUserAuth(ctx *gin.Context) {
+	// 从session获取当前用户名
+	session := sessions.Default(ctx) // 初始化一个session对象
+	userName := session.Get("userName")
+
+	// 保存认证信息   ---   处理 Request Payload 数据类型.Bind()
+	var authData struct {
+		RealName string `json:"real_name"`
+		IdCard   string `json:"id_card"`
+	}
+	ctx.Bind(&authData)
+
+	// 初始化consul
+	microService := utils.InitMicro()
+
+	// 初始化客户端
+	microClient := userMicro.NewUserService("go.micro.srv.user", microService.Client())
+
+	// 调用远程函数
+	resp, err := microClient.AuthUpdate(context.TODO(), &userMicro.AuthReq{
+		UserName: userName.(string),
+		RealName: authData.RealName,
+		IdCard:   authData.IdCard,
+	})
+	if err != nil {
+		fmt.Println("保存实名认证信息, 找不到远程服务!", err)
+		return
+	}
+
+	// 更新信息
 	ctx.JSON(http.StatusOK, resp)
 
 }

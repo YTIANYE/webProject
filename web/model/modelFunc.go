@@ -9,9 +9,11 @@ import (
 )
 
 // 创建全局连接池 redis 句柄
+
 var RedisPool redis.Pool
 
 // 创建函数 初始化连接池
+
 func InitRedis() {
 	// 连接 Redis 连接池
 	RedisPool = redis.Pool{
@@ -26,6 +28,7 @@ func InitRedis() {
 }
 
 // 校验图片验证码
+
 func CheckImgCode(uuid, imgCode string) bool {
 	// 连接redis  ---  从连接池中获取链接
 	/*	conn, err := redis.Dial("tcp", "192.168.17.129:6379")
@@ -47,6 +50,7 @@ func CheckImgCode(uuid, imgCode string) bool {
 }
 
 // 存储短信验证码
+
 func SaveSmsCode(phone, code string) error {
 	// 从 redis 连接池获取一条连接
 	conn := RedisPool.Get()
@@ -58,6 +62,7 @@ func SaveSmsCode(phone, code string) error {
 }
 
 // 校验短信验证码
+
 func CheckSmsCode(phone, code string) error {
 	// 链接redis
 	conn := RedisPool.Get()
@@ -77,6 +82,7 @@ func CheckSmsCode(phone, code string) error {
 }
 
 // 注册用户信息,写 MySQL 数据库.
+
 func RegisterUser(mobile, pwd string) error {
 	var user User
 	user.Name = mobile // 默认使用手机号作为用户名
@@ -93,6 +99,7 @@ func RegisterUser(mobile, pwd string) error {
 }
 
 // 处理登录业务，根据手机号和密码获取用户名
+
 func Login(mobile, pwd string) (string, error) {
 	var user User
 
@@ -112,6 +119,7 @@ func Login(mobile, pwd string) (string, error) {
 }
 
 // 获取用户信息
+
 func GetUserInfo(userName string) (User, error) {
 
 	// 实现 SQL select * from user where name = userName;
@@ -121,14 +129,15 @@ func GetUserInfo(userName string) (User, error) {
 }
 
 // 更新用户名
+
 func UpdateUserName(newName, oldName string) error {
 	// update user set name = 'username01' where name = 旧用户名
 	return GlobalConn.Model(new(User)).Where("name = ?", oldName).Update("name", newName).Error
 }
 
 // 根据用户名，更新用户头像
+
 func UpdateAvatar(userName, avatar string) error {
 	// update user set avatar_url = avatar, where name = username
 	return GlobalConn.Model(new(User)).Where("name = ?", userName).Update("avatar_url", avatar).Error
-
 }

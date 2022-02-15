@@ -78,6 +78,7 @@ func (e *User) SendSms(ctx context.Context, req *user.Request, rsp *user.Respons
 	return nil
 }
 
+// 用户注册
 func (e *User) Register(ctx context.Context, req *user.RegReq, rsp *user.Response) error {
 	// 校验名短信验证码是否正确（短信验证码存储在redis中）
 	err := model.CheckSmsCode(req.Mobile, req.SmsCode)
@@ -97,6 +98,23 @@ func (e *User) Register(ctx context.Context, req *user.RegReq, rsp *user.Respons
 		return err
 	} else {
 		fmt.Println("写入数据库成功")
+		rsp.Errno = utils.RECODE_OK
+		rsp.Errmsg = utils.RecodeText(utils.RECODE_OK)
+	}
+	return nil
+}
+
+// 更改实名认证信息
+func (e *User) AuthUpdate(ctx context.Context, req *user.AuthReq, rsp *user.AuthResp) error{
+	// 更新数据库
+	err := model.UpdateUserAuth(req.UserName, req.RealName, req.IdCard)
+	if err != nil{
+		fmt.Println("实名认证更新失败：", err)
+		rsp.Errno = utils.RECODE_DBWRITERR
+		rsp.Errmsg = utils.RecodeText(utils.RECODE_DBWRITERR)
+		return err
+	}else{
+		fmt.Println("更改实名认证信息成功")
 		rsp.Errno = utils.RECODE_OK
 		rsp.Errmsg = utils.RecodeText(utils.RECODE_OK)
 	}

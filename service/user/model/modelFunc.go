@@ -91,3 +91,13 @@ func RegisterUser(mobile, pwd string) error {
 	// 插入数据到MySQL
 	return GlobalConn.Create(&user).Error
 }
+
+// 更新用户实名认证信息
+
+func UpdateUserAuth(userName, newRealName, newIdCard string) error {
+	// update user set real_name = 'new_real_name' where name = 'user_name'
+	return GlobalConn.Model(new(User)).
+		Where("name = ?", userName).
+		Update("real_name", newRealName).
+		Update("id_card", newIdCard).Error
+}

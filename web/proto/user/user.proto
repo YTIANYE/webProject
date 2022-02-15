@@ -7,7 +7,9 @@ option go_package = "/proto/user";  //防止错误 protoc-gen-go: unable to dete
 service User {
 	rpc SendSms(Request) returns (Response) {}// 发送短信验证码的服务
 	rpc Register(RegReq) returns (Response){};// 注册服务
+	rpc AuthUpdate(AuthReq)returns(AuthResp){};// 更改实名认证信息
 }
+
 // 注册服务 传入
 message RegReq{
 	string mobile = 1;
@@ -24,6 +26,18 @@ message Request {
 
 // 短信验证码服务/注册服务 传出
 message Response {
+	string errno = 1;
+	string errmsg = 2;
+}
+
+// 更改实名认证信息 传入
+message AuthReq{
+	string id_card = 1;
+	string real_name = 2;
+	string userName = 3;
+}
+
+message AuthResp{
 	string errno = 1;
 	string errmsg = 2;
 }

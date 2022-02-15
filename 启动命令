@@ -1,5 +1,5 @@
 启动consul服务
-congsul agent -dev
+consul agent -dev
 
 启动mysql
 mysql -u tian -p

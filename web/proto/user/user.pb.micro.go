@@ -36,6 +36,7 @@ var _ server.Option
 type UserService interface {
 	SendSms(ctx context.Context, in *Request, opts ...client.CallOption) (*Response, error)
 	Register(ctx context.Context, in *RegReq, opts ...client.CallOption) (*Response, error)
+	AuthUpdate(ctx context.Context, in *AuthReq, opts ...client.CallOption) (*AuthResp, error)
 }
 
 type userService struct {
@@ -76,17 +77,29 @@ func (c *userService) Register(ctx context.Context, in *RegReq, opts ...client.C
 	return out, nil
 }
 
+func (c *userService) AuthUpdate(ctx context.Context, in *AuthReq, opts ...client.CallOption) (*AuthResp, error) {
+	req := c.c.NewRequest(c.name, "User.AuthUpdate", in)
+	out := new(AuthResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for User service
 
 type UserHandler interface {
 	SendSms(context.Context, *Request, *Response) error
 	Register(context.Context, *RegReq, *Response) error
+	AuthUpdate(context.Context, *AuthReq, *AuthResp) error
 }
 
 func RegisterUserHandler(s server.Server, hdlr UserHandler, opts ...server.HandlerOption) error {
 	type user interface {
 		SendSms(ctx context.Context, in *Request, out *Response) error
 		Register(ctx context.Context, in *RegReq, out *Response) error
+		AuthUpdate(ctx context.Context, in *AuthReq, out *AuthResp) error
 	}
 	type User struct {
 		user
@@ -105,4 +118,8 @@ func (h *userHandler) SendSms(ctx context.Context, in *Request, out *Response) e
 
 func (h *userHandler) Register(ctx context.Context, in *RegReq, out *Response) error {
 	return h.UserHandler.Register(ctx, in, out)
+}
+
+func (h *userHandler) AuthUpdate(ctx context.Context, in *AuthReq, out *AuthResp) error {
+	return h.UserHandler.AuthUpdate(ctx, in, out)
 }

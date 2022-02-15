@@ -61,6 +61,10 @@ func main() {
 		r1.GET("/user", controller.GetUserInfo)
 		r1.PUT("/user/name", controller.PutUserInfo)
 		r1.POST("/user/avatar", controller.PostAvatar)
+
+		// 用户实名认证
+		r1.GET("/user/auth", controller.GetUserInfo)
+		r1.POST("user/auth", controller.PutUserAuth)
 	}
 
 	/*	// 处理 Session
