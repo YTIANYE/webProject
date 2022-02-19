@@ -68,6 +68,8 @@ func main() {
 
 		// 房源信息相关
 		r1.GET("/user/houses", controller.GetUserHouses)
+		r1.POST("/houses", controller.PostHouses)
+
 
 	}
 

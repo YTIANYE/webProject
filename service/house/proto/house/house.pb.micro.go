@@ -35,6 +35,7 @@ var _ server.Option
 
 type HouseService interface {
 	GetHouseInfo(ctx context.Context, in *InfoReq, opts ...client.CallOption) (*InfoResp, error)
+	PubHouse(ctx context.Context, in *PubReq, opts ...client.CallOption) (*PubResp, error)
 }
 
 type houseService struct {
@@ -65,15 +66,27 @@ func (c *houseService) GetHouseInfo(ctx context.Context, in *InfoReq, opts ...cl
 	return out, nil
 }
 
+func (c *houseService) PubHouse(ctx context.Context, in *PubReq, opts ...client.CallOption) (*PubResp, error) {
+	req := c.c.NewRequest(c.name, "House.PubHouse", in)
+	out := new(PubResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for House service
 
 type HouseHandler interface {
 	GetHouseInfo(context.Context, *InfoReq, *InfoResp) error
+	PubHouse(context.Context, *PubReq, *PubResp) error
 }
 
 func RegisterHouseHandler(s server.Server, hdlr HouseHandler, opts ...server.HandlerOption) error {
 	type house interface {
 		GetHouseInfo(ctx context.Context, in *InfoReq, out *InfoResp) error
+		PubHouse(ctx context.Context, in *PubReq, out *PubResp) error
 	}
 	type House struct {
 		house
@@ -88,4 +101,8 @@ type houseHandler struct {
 
 func (h *houseHandler) GetHouseInfo(ctx context.Context, in *InfoReq, out *InfoResp) error {
 	return h.HouseHandler.GetHouseInfo(ctx, in, out)
+}
+
+func (h *houseHandler) PubHouse(ctx context.Context, in *PubReq, out *PubResp) error {
+	return h.HouseHandler.PubHouse(ctx, in, out)
 }

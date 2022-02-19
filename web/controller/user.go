@@ -16,7 +16,6 @@ import (
 	"path"
 	"webProject/web/model"
 	"webProject/web/proto/getCaptcha"
-	houseMicro "webProject/web/proto/house"
 	userMicro "webProject/web/proto/user"
 	"webProject/web/utils"
 )
@@ -423,17 +422,3 @@ func PutUserAuth(ctx *gin.Context) {
 
 }
 
-// 获取用户已发布房源
-
-func GetUserHouses(ctx *gin.Context) {
-	// 获取Sesion, 得到用户名
-	session := sessions.Default(ctx)
-	userName := session.Get("userName")
-
-	microClient := houseMicro.NewHouseService("go.micro.srv.house", utils.GetMicroClient())
-	//调用远程服务
-	resp, _ := microClient.GetHouseInfo(context.TODO(), &houseMicro.InfoReq{UserName: userName.(string)})
-
-	//返回数据
-	ctx.JSON(http.StatusOK, resp)
-}

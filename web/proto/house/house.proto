@@ -7,9 +7,10 @@ option go_package = "/proto/house";  //防止错误 protoc-gen-go: unable to det
 service House {
 
 	rpc GetHouseInfo(InfoReq) returns (InfoResp){}
+	rpc PubHouse(PubReq) returns (PubResp){}
 }
 
-
+// 查询房屋信息
 message InfoReq {
 	string userName = 1;
 }
@@ -37,3 +38,31 @@ message Houses {
 	string user_avatar = 10;
 }
 
+// 发布房屋信息
+
+message PubReq{
+	string acreage = 1;
+	string address = 2;
+	string area_id = 3;
+	string beds = 4;
+	string capacity = 5;
+	string deposit = 6;
+	repeated string facility = 7;
+	string max_days = 8;
+	string min_days = 9;
+	string price = 10;
+	string room_count = 11;
+	string title = 12;
+	string unit = 13;
+	string userName = 14;
+}
+
+message PubResp{
+	string errno = 1;
+	string errmsg = 2;
+	HouseData data = 3;
+}
+
+message HouseData {
+	string house_id = 1;
+}
