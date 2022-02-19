@@ -1,11 +1,11 @@
-# GetUserHouses Service
+# House Service
 
-This is the GetUserHouses service
+This is the House service
 
 Generated with
 
 ```
-micro new service/GetUserHouses --namespace=go.micro --type=srv
+micro new service/house --namespace=go.micro --type=srv
 ```
 
 ## Getting Started
@@ -16,9 +16,9 @@ micro new service/GetUserHouses --namespace=go.micro --type=srv
 
 ## Configuration
 
-- FQDN: go.micro.srv.GetUserHouses
+- FQDN: go.micro.srv.house
 - Type: srv
-- Alias: GetUserHouses
+- Alias: house
 
 ## Dependencies
 
@@ -46,7 +46,7 @@ make build
 
 Run the service
 ```
-./GetUserHouses-srv
+./house-srv
 ```
 
 Build a docker image

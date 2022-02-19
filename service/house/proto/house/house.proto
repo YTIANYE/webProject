@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package go.micro.srv.house;
+
+option go_package = "/proto/house";  //防止错误 protoc-gen-go: unable to determine Go import path
+
+service House {
+
+	rpc GetHouseInfo(InfoReq) returns (InfoResp){}
+}
+
+
+message InfoReq {
+	string userName = 1;
+}
+
+message InfoResp {
+	string errno = 1;
+	string errmsg = 2;
+	GetData data = 3;
+}
+
+message GetData{
+	repeated Houses houses = 1;
+}
+
+message Houses {
+	string address = 1;
+	string area_name = 2;
+	string ctime = 3;
+	int32 house_id = 4;
+	string img_url = 5;
+	int32 order_count = 6;
+	int32 price = 7;
+	int32 room_count = 8;
+	string title = 9;
+	string user_avatar = 10;
+}
+

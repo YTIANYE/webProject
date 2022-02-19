@@ -65,6 +65,10 @@ func main() {
 		// 用户实名认证
 		r1.GET("/user/auth", controller.GetUserInfo)
 		r1.POST("user/auth", controller.PutUserAuth)
+
+		// 房源信息相关
+		r1.GET("/user/houses", controller.GetUserHouses)
+
 	}
 
 	/*	// 处理 Session
