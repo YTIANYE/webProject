@@ -6,6 +6,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"path"
 	houseMicro "webProject/web/proto/house"
 	"webProject/web/utils"
 )
@@ -77,5 +78,71 @@ func PostHouses(ctx *gin.Context) {
 	})
 
 	// 返回数据
+	ctx.JSON(http.StatusOK, resp)
+}
+
+// 添加房屋图片
+
+func PostHousesImage(ctx *gin.Context) {
+
+	// 获取数据
+	houseId := ctx.Param("id")
+	fileHeader, err := ctx.FormFile("house_image")
+
+	// 校验数据
+	if houseId == "" || err != nil{
+		fmt.Println("传入参数不完整", err)
+		return
+	}
+
+	// 三种校验 大小 类型 防止重名    fastdfs
+	if fileHeader.Size > 50000000 {
+		fmt.Println("文件过大！")
+		return
+	}
+
+	fileExt := path.Ext(fileHeader.Filename)
+	if fileExt != ".png" && fileExt != ".jpg" {
+		fmt.Println("文件类型错误,请重新选择")
+		return
+	}
+
+	// 获取文件字节切片
+	file, _ := fileHeader.Open()
+	buf := make([]byte, fileHeader.Size)
+	file.Read(buf)
+
+	// 远程调用
+	microClient := houseMicro.NewHouseService("go.micro.srv.house", utils.GetMicroClient())
+	resp, _ := microClient.UploadHouseImg(context.TODO(), &houseMicro.ImgReq{
+		HouseId: houseId,
+		ImgData: buf,
+		FileExt: fileExt,
+	})
+	ctx.JSON(http.StatusOK, resp)
+
+
+}
+
+// 查看房源详细信息
+func GetHouseDetailInfo(ctx *gin.Context) {
+	fmt.Println("开始查询房屋详细信息")
+
+	// 获取数据
+	houseId := ctx.Param("id")
+	if houseId == ""{
+		fmt.Println("获取房屋id错误")
+		return
+	}
+	userName := sessions.Default(ctx).Get("userName")
+
+	// 远程调用
+	microClient := houseMicro.NewHouseService("go.micro.srv.house", utils.GetMicroClient())
+	resp, _ := microClient.GetHouseDetail(context.TODO(), &houseMicro.DetailReq{
+		HouseId: houseId,
+		UserName: userName.(string),
+	})
+
+	// 返回信息
 	ctx.JSON(http.StatusOK, resp)
 }

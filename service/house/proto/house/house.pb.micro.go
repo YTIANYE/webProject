@@ -40,6 +40,8 @@ type HouseService interface {
 	PubHouse(ctx context.Context, in *PubReq, opts ...client.CallOption) (*PubResp, error)
 	// 上传房屋图片
 	UploadHouseImg(ctx context.Context, in *ImgReq, opts ...client.CallOption) (*ImgResp, error)
+	// 查询房屋具体信息
+	GetHouseDetail(ctx context.Context, in *DetailReq, opts ...client.CallOption) (*DetailResp, error)
 }
 
 type houseService struct {
@@ -90,6 +92,16 @@ func (c *houseService) UploadHouseImg(ctx context.Context, in *ImgReq, opts ...c
 	return out, nil
 }
 
+func (c *houseService) GetHouseDetail(ctx context.Context, in *DetailReq, opts ...client.CallOption) (*DetailResp, error) {
+	req := c.c.NewRequest(c.name, "House.GetHouseDetail", in)
+	out := new(DetailResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for House service
 
 type HouseHandler interface {
@@ -99,6 +111,8 @@ type HouseHandler interface {
 	PubHouse(context.Context, *PubReq, *PubResp) error
 	// 上传房屋图片
 	UploadHouseImg(context.Context, *ImgReq, *ImgResp) error
+	// 查询房屋具体信息
+	GetHouseDetail(context.Context, *DetailReq, *DetailResp) error
 }
 
 func RegisterHouseHandler(s server.Server, hdlr HouseHandler, opts ...server.HandlerOption) error {
@@ -106,6 +120,7 @@ func RegisterHouseHandler(s server.Server, hdlr HouseHandler, opts ...server.Han
 		GetHouseInfo(ctx context.Context, in *InfoReq, out *InfoResp) error
 		PubHouse(ctx context.Context, in *PubReq, out *PubResp) error
 		UploadHouseImg(ctx context.Context, in *ImgReq, out *ImgResp) error
+		GetHouseDetail(ctx context.Context, in *DetailReq, out *DetailResp) error
 	}
 	type House struct {
 		house
@@ -128,4 +143,8 @@ func (h *houseHandler) PubHouse(ctx context.Context, in *PubReq, out *PubResp) e
 
 func (h *houseHandler) UploadHouseImg(ctx context.Context, in *ImgReq, out *ImgResp) error {
 	return h.HouseHandler.UploadHouseImg(ctx, in, out)
+}
+
+func (h *houseHandler) GetHouseDetail(ctx context.Context, in *DetailReq, out *DetailResp) error {
+	return h.HouseHandler.GetHouseDetail(ctx, in, out)
 }

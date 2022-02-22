@@ -34,8 +34,14 @@ var _ server.Option
 // Client API for House service
 
 type HouseService interface {
+	// 查询房屋信息
 	GetHouseInfo(ctx context.Context, in *InfoReq, opts ...client.CallOption) (*InfoResp, error)
+	// 发布房屋信息
 	PubHouse(ctx context.Context, in *PubReq, opts ...client.CallOption) (*PubResp, error)
+	// 上传房屋图片
+	UploadHouseImg(ctx context.Context, in *ImgReq, opts ...client.CallOption) (*ImgResp, error)
+	// 查询房屋具体信息
+	GetHouseDetail(ctx context.Context, in *DetailReq, opts ...client.CallOption) (*DetailResp, error)
 }
 
 type houseService struct {
@@ -76,17 +82,45 @@ func (c *houseService) PubHouse(ctx context.Context, in *PubReq, opts ...client.
 	return out, nil
 }
 
+func (c *houseService) UploadHouseImg(ctx context.Context, in *ImgReq, opts ...client.CallOption) (*ImgResp, error) {
+	req := c.c.NewRequest(c.name, "House.UploadHouseImg", in)
+	out := new(ImgResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *houseService) GetHouseDetail(ctx context.Context, in *DetailReq, opts ...client.CallOption) (*DetailResp, error) {
+	req := c.c.NewRequest(c.name, "House.GetHouseDetail", in)
+	out := new(DetailResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for House service
 
 type HouseHandler interface {
+	// 查询房屋信息
 	GetHouseInfo(context.Context, *InfoReq, *InfoResp) error
+	// 发布房屋信息
 	PubHouse(context.Context, *PubReq, *PubResp) error
+	// 上传房屋图片
+	UploadHouseImg(context.Context, *ImgReq, *ImgResp) error
+	// 查询房屋具体信息
+	GetHouseDetail(context.Context, *DetailReq, *DetailResp) error
 }
 
 func RegisterHouseHandler(s server.Server, hdlr HouseHandler, opts ...server.HandlerOption) error {
 	type house interface {
 		GetHouseInfo(ctx context.Context, in *InfoReq, out *InfoResp) error
 		PubHouse(ctx context.Context, in *PubReq, out *PubResp) error
+		UploadHouseImg(ctx context.Context, in *ImgReq, out *ImgResp) error
+		GetHouseDetail(ctx context.Context, in *DetailReq, out *DetailResp) error
 	}
 	type House struct {
 		house
@@ -105,4 +139,12 @@ func (h *houseHandler) GetHouseInfo(ctx context.Context, in *InfoReq, out *InfoR
 
 func (h *houseHandler) PubHouse(ctx context.Context, in *PubReq, out *PubResp) error {
 	return h.HouseHandler.PubHouse(ctx, in, out)
+}
+
+func (h *houseHandler) UploadHouseImg(ctx context.Context, in *ImgReq, out *ImgResp) error {
+	return h.HouseHandler.UploadHouseImg(ctx, in, out)
+}
+
+func (h *houseHandler) GetHouseDetail(ctx context.Context, in *DetailReq, out *DetailResp) error {
+	return h.HouseHandler.GetHouseDetail(ctx, in, out)
 }

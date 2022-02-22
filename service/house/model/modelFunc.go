@@ -32,7 +32,7 @@ func GetUserHouse(userName string) ([]*house.Houses, error) {
 
 	// 判断用户是否存在
 	var user User
-	if err := GlobalConn.Where("name = ?", userName).Find(&user).Error; err != nil {//不要忘记加 ？
+	if err := GlobalConn.Where("name = ?", userName).Find(&user).Error; err != nil { //不要忘记加 ？
 		fmt.Println("userName:", userName)
 		fmt.Print("获取当前用户信息错误：", err)
 		return nil, err
@@ -117,8 +117,103 @@ func AddHouse(req *house.PubReq) (int, error) {
 }
 
 // 房屋图片存入数据库
-func SaveHouseImg(houseId, imgPath string) error{
+func SaveHouseImg(houseId, imgPath string) error {
 	return GlobalConn.Model(new(House)).
 		Where("id = ?", houseId).
 		Update("index_image_url", imgPath).Error
+}
+
+// 获取房屋详细信息
+func GetHouseDetail(houseId, userName string) (house.DetailData, error) {
+	var respData house.DetailData     // 返回数据
+	var houseDetail house.HouseDetail //
+
+	// 1. 查询房屋信息
+	var houseInfo House
+	if err := GlobalConn.Where("id = ?", houseId).Find(&houseInfo).Error; err != nil {
+		fmt.Println("查询房屋信息错误：", err)
+		return respData, nil
+	}
+	// 查询房屋信息成功
+	{
+		houseDetail.Acreage = int32(houseInfo.Acreage)
+		houseDetail.Address = houseInfo.Address
+		houseDetail.Beds = houseInfo.Beds
+		houseDetail.Capacity = int32(houseInfo.Capacity)
+		houseDetail.Deposit = int32(houseInfo.Deposit)
+		houseDetail.Hid = int32(houseInfo.ID)
+		houseDetail.MaxDays = int32(houseInfo.Max_days)
+		houseDetail.MinDays = int32(houseInfo.Min_days)
+		houseDetail.Price = int32(houseInfo.Price)
+		houseDetail.RoomCount = int32(houseInfo.Room_count)
+		houseDetail.Title = houseInfo.Title
+		houseDetail.Unit = houseInfo.Unit
+		if houseInfo.Index_image_url != "" {
+			houseDetail.ImgUrls = append(houseDetail.ImgUrls, "http://192.168.17.129:8888/"+houseInfo.Index_image_url)
+		}
+	}
+
+	// 2. 查询评论
+	var orders []OrderHouse
+	if err := GlobalConn.Model(&houseInfo).Related(&orders).Error; err != nil {
+		fmt.Println("查询评论信息错误")
+		return respData, nil
+	}
+	// 查询评论信息成功
+	for _, v := range orders {
+		var commentTemp house.CommentData
+		commentTemp.Comment = v.Comment
+		commentTemp.Ctime = v.CreatedAt.Format("2006-01-02 15:04:05")
+		var tempUser User
+		GlobalConn.Model(&v).Related(&tempUser)
+		commentTemp.UserName = tempUser.Name
+
+		houseDetail.Comments = append(houseDetail.Comments, &commentTemp)
+	}
+
+	// 3. 获取房屋家具信息
+	var facs []Facility
+	if err := GlobalConn.Model(&houseInfo).Related(facs, "Facilities").Error; err != nil {
+		fmt.Println("获取房屋家具信息错误：", err)
+		return respData, nil
+	}
+	// 查询家具信息成功
+	for _, v := range facs {
+		houseDetail.Facilities = append(houseDetail.Facilities, int32(v.Id))
+	}
+
+	// 4. 获取幅图片
+	var imgs []HouseImage
+	if err := GlobalConn.Model(&houseInfo).Related(&imgs).Error; err != nil{
+		fmt.Println("该房屋没有副图片")
+	}
+	// 查询房屋副图片成功
+	for _, v := range imgs{
+		if len(imgs)!=0{
+			houseDetail.ImgUrls = append(houseDetail.ImgUrls, "http://192.168.17.129:8888/" + v.Url)
+		}
+	}
+
+	// 5. 获取房屋所有者信息
+	var user User
+	if err:= GlobalConn.Model(&houseInfo).Related(&user).Error; err != nil{
+		fmt.Println("查询房屋所有者错误：", err)
+		return respData, nil
+	}
+	// 查询房屋所有者信息成功
+	houseDetail.UserName = user.Name
+	houseDetail.UserAvatar = user.Avatar_url
+	houseDetail.UserId = int32(user.ID)
+
+	// 6. 完成房屋具体信息查询
+	respData.House = &houseDetail
+
+	// 获取浏览人信息
+	var nowUser User
+	if err := GlobalConn.Where("name = ?", userName).Find(&nowUser).Error; err != nil{
+		fmt.Println("查询当前浏览人信息错误", err)
+		return respData, nil
+	}
+	respData.UserId = int32(nowUser.ID)
+	return respData, nil
 }

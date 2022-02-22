@@ -92,7 +92,7 @@ func InitDb()(*gorm.DB,error){
 		GlobalConn.DB().SetMaxIdleConns(10)
 		GlobalConn.DB().SetConnMaxLifetime(100)
 
-		db.SingularTable(true)
+		db.SingularTable(true)// 全局禁用表名复数 `User`的默认表名为`user`
 		db.AutoMigrate(new(User), new(House), new(Area), new(Facility), new(HouseImage), new(OrderHouse))
 		return db, nil
 	}

@@ -92,3 +92,23 @@ func (e *House) UploadHouseImg(ctx context.Context, req *house.ImgReq,  resp *ho
 
 	return nil
 }
+
+// 获取房屋详细信息
+func (e *House) GetHouseDetail(ctx context.Context, req *house.DetailReq, resp *house.DetailResp) error {
+	log.Log("Received House.GetHouseDetail request")
+
+	// 查询数据库信息
+	respData, err := model.GetHouseDetail(req.HouseId, req.UserName)
+	if err != nil{
+		fmt.Println("查询数据库错误：", err)
+		resp.Errno = utils.RECODE_DBERR
+		resp.Errmsg = utils.RecodeText(utils.RECODE_DBERR)
+		return nil
+	}
+
+	resp.Errno = utils.RECODE_OK
+	resp.Errmsg = utils.RecodeText(utils.RECODE_OK)
+	resp.Data = &respData
+
+	return nil
+}

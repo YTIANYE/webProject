@@ -6,8 +6,15 @@ option go_package = "/proto/house";  //防止错误 protoc-gen-go: unable to det
 
 service House {
 
+	// 查询房屋信息
 	rpc GetHouseInfo(InfoReq) returns (InfoResp){}
+	// 发布房屋信息
 	rpc PubHouse(PubReq) returns (PubResp){}
+	// 上传房屋图片
+	rpc UploadHouseImg(ImgReq) returns (ImgResp){}
+	// 查询房屋具体信息
+	rpc GetHouseDetail(DetailReq) returns (DetailResp){}
+
 }
 
 // 查询房屋信息
@@ -65,4 +72,71 @@ message PubResp{
 
 message HouseData {
 	string house_id = 1;
+}
+
+// 上传房屋图片
+
+message ImgReq {
+	string houseId = 1;
+	bytes imgData = 2;
+	string fileExt = 3;
+}
+
+message ImgData{
+	string url = 1;
+}
+
+message ImgResp{
+	string errno = 1;
+	string errmsg = 2;
+	ImgData data = 3;
+}
+
+// 获取房屋具体信息
+
+message DetailReq{
+	string houseId = 1;
+	string userName = 2;
+}
+
+message DetailResp{
+	string errno = 1;
+	string errmsg = 2;
+	DetailData data = 3;
+}
+
+message DetailData{
+	HouseDetail house = 1;
+	int32 user_id = 2;
+}
+
+message HouseDetail{
+	int32 acreage = 1;
+	string address = 2;
+	string beds = 3;
+	int32 capacity = 4;
+
+	//评论
+	repeated CommentData comments = 5;
+	int32 deposit=6;
+	//展示所有的图片 主图片和副图片
+	repeated int32 facilities = 7; //家具id切片
+	int32 hid = 8;
+	repeated string img_urls = 9;
+
+	int32 max_days = 10;
+	int32 min_days = 11;
+	int32 price = 12;
+	int32 room_count = 13;
+	string title = 14;
+	string unit = 15;
+	string user_avatar = 16;
+	int32 user_id = 17;
+	string user_name = 18;
+}
+
+message CommentData {// 评论
+	string comment = 1;
+	string ctime = 2;
+	string user_name = 3;
 }

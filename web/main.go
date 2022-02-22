@@ -67,9 +67,14 @@ func main() {
 		r1.POST("user/auth", controller.PutUserAuth)
 
 		// 房源信息相关
+		// 查看用户已发布房源
 		r1.GET("/user/houses", controller.GetUserHouses)
+		// 发布房源信息
 		r1.POST("/houses", controller.PostHouses)
-
+		// 添加房源图片
+		r1.POST("/houses/:id/images", controller.PostHousesImage)
+		// 查看房源详细信息
+		r1.GET("/houses/:id", controller.GetHouseDetailInfo)
 
 	}
 

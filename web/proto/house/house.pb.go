@@ -558,6 +558,600 @@ func (x *HouseData) GetHouseId() string {
 	return ""
 }
 
+type ImgReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	HouseId string `protobuf:"bytes,1,opt,name=houseId,proto3" json:"houseId,omitempty"`
+	ImgData []byte `protobuf:"bytes,2,opt,name=imgData,proto3" json:"imgData,omitempty"`
+	FileExt string `protobuf:"bytes,3,opt,name=fileExt,proto3" json:"fileExt,omitempty"`
+}
+
+func (x *ImgReq) Reset() {
+	*x = ImgReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_house_house_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ImgReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImgReq) ProtoMessage() {}
+
+func (x *ImgReq) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_house_house_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImgReq.ProtoReflect.Descriptor instead.
+func (*ImgReq) Descriptor() ([]byte, []int) {
+	return file_proto_house_house_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ImgReq) GetHouseId() string {
+	if x != nil {
+		return x.HouseId
+	}
+	return ""
+}
+
+func (x *ImgReq) GetImgData() []byte {
+	if x != nil {
+		return x.ImgData
+	}
+	return nil
+}
+
+func (x *ImgReq) GetFileExt() string {
+	if x != nil {
+		return x.FileExt
+	}
+	return ""
+}
+
+type ImgData struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+}
+
+func (x *ImgData) Reset() {
+	*x = ImgData{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_house_house_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ImgData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImgData) ProtoMessage() {}
+
+func (x *ImgData) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_house_house_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImgData.ProtoReflect.Descriptor instead.
+func (*ImgData) Descriptor() ([]byte, []int) {
+	return file_proto_house_house_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ImgData) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+type ImgResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Errno  string   `protobuf:"bytes,1,opt,name=errno,proto3" json:"errno,omitempty"`
+	Errmsg string   `protobuf:"bytes,2,opt,name=errmsg,proto3" json:"errmsg,omitempty"`
+	Data   *ImgData `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *ImgResp) Reset() {
+	*x = ImgResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_house_house_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ImgResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImgResp) ProtoMessage() {}
+
+func (x *ImgResp) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_house_house_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImgResp.ProtoReflect.Descriptor instead.
+func (*ImgResp) Descriptor() ([]byte, []int) {
+	return file_proto_house_house_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ImgResp) GetErrno() string {
+	if x != nil {
+		return x.Errno
+	}
+	return ""
+}
+
+func (x *ImgResp) GetErrmsg() string {
+	if x != nil {
+		return x.Errmsg
+	}
+	return ""
+}
+
+func (x *ImgResp) GetData() *ImgData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type DetailReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	HouseId  string `protobuf:"bytes,1,opt,name=houseId,proto3" json:"houseId,omitempty"`
+	UserName string `protobuf:"bytes,2,opt,name=userName,proto3" json:"userName,omitempty"`
+}
+
+func (x *DetailReq) Reset() {
+	*x = DetailReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_house_house_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DetailReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DetailReq) ProtoMessage() {}
+
+func (x *DetailReq) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_house_house_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DetailReq.ProtoReflect.Descriptor instead.
+func (*DetailReq) Descriptor() ([]byte, []int) {
+	return file_proto_house_house_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DetailReq) GetHouseId() string {
+	if x != nil {
+		return x.HouseId
+	}
+	return ""
+}
+
+func (x *DetailReq) GetUserName() string {
+	if x != nil {
+		return x.UserName
+	}
+	return ""
+}
+
+type DetailResp struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Errno  string      `protobuf:"bytes,1,opt,name=errno,proto3" json:"errno,omitempty"`
+	Errmsg string      `protobuf:"bytes,2,opt,name=errmsg,proto3" json:"errmsg,omitempty"`
+	Data   *DetailData `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+}
+
+func (x *DetailResp) Reset() {
+	*x = DetailResp{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_house_house_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DetailResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DetailResp) ProtoMessage() {}
+
+func (x *DetailResp) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_house_house_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DetailResp.ProtoReflect.Descriptor instead.
+func (*DetailResp) Descriptor() ([]byte, []int) {
+	return file_proto_house_house_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DetailResp) GetErrno() string {
+	if x != nil {
+		return x.Errno
+	}
+	return ""
+}
+
+func (x *DetailResp) GetErrmsg() string {
+	if x != nil {
+		return x.Errmsg
+	}
+	return ""
+}
+
+func (x *DetailResp) GetData() *DetailData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type DetailData struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	House  *HouseDetail `protobuf:"bytes,1,opt,name=house,proto3" json:"house,omitempty"`
+	UserId int32        `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+}
+
+func (x *DetailData) Reset() {
+	*x = DetailData{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_house_house_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DetailData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DetailData) ProtoMessage() {}
+
+func (x *DetailData) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_house_house_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DetailData.ProtoReflect.Descriptor instead.
+func (*DetailData) Descriptor() ([]byte, []int) {
+	return file_proto_house_house_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DetailData) GetHouse() *HouseDetail {
+	if x != nil {
+		return x.House
+	}
+	return nil
+}
+
+func (x *DetailData) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+type HouseDetail struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Acreage  int32  `protobuf:"varint,1,opt,name=acreage,proto3" json:"acreage,omitempty"`
+	Address  string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	Beds     string `protobuf:"bytes,3,opt,name=beds,proto3" json:"beds,omitempty"`
+	Capacity int32  `protobuf:"varint,4,opt,name=capacity,proto3" json:"capacity,omitempty"`
+	//评论
+	Comments []*CommentData `protobuf:"bytes,5,rep,name=comments,proto3" json:"comments,omitempty"`
+	Deposit  int32          `protobuf:"varint,6,opt,name=deposit,proto3" json:"deposit,omitempty"`
+	//展示所有的图片 主图片和副图片
+	Facilities []int32  `protobuf:"varint,7,rep,packed,name=facilities,proto3" json:"facilities,omitempty"` //家具id切片
+	Hid        int32    `protobuf:"varint,8,opt,name=hid,proto3" json:"hid,omitempty"`
+	ImgUrls    []string `protobuf:"bytes,9,rep,name=img_urls,json=imgUrls,proto3" json:"img_urls,omitempty"`
+	MaxDays    int32    `protobuf:"varint,10,opt,name=max_days,json=maxDays,proto3" json:"max_days,omitempty"`
+	MinDays    int32    `protobuf:"varint,11,opt,name=min_days,json=minDays,proto3" json:"min_days,omitempty"`
+	Price      int32    `protobuf:"varint,12,opt,name=price,proto3" json:"price,omitempty"`
+	RoomCount  int32    `protobuf:"varint,13,opt,name=room_count,json=roomCount,proto3" json:"room_count,omitempty"`
+	Title      string   `protobuf:"bytes,14,opt,name=title,proto3" json:"title,omitempty"`
+	Unit       string   `protobuf:"bytes,15,opt,name=unit,proto3" json:"unit,omitempty"`
+	UserAvatar string   `protobuf:"bytes,16,opt,name=user_avatar,json=userAvatar,proto3" json:"user_avatar,omitempty"`
+	UserId     int32    `protobuf:"varint,17,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserName   string   `protobuf:"bytes,18,opt,name=user_name,json=userName,proto3" json:"user_name,omitempty"`
+}
+
+func (x *HouseDetail) Reset() {
+	*x = HouseDetail{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_house_house_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *HouseDetail) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HouseDetail) ProtoMessage() {}
+
+func (x *HouseDetail) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_house_house_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HouseDetail.ProtoReflect.Descriptor instead.
+func (*HouseDetail) Descriptor() ([]byte, []int) {
+	return file_proto_house_house_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *HouseDetail) GetAcreage() int32 {
+	if x != nil {
+		return x.Acreage
+	}
+	return 0
+}
+
+func (x *HouseDetail) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+func (x *HouseDetail) GetBeds() string {
+	if x != nil {
+		return x.Beds
+	}
+	return ""
+}
+
+func (x *HouseDetail) GetCapacity() int32 {
+	if x != nil {
+		return x.Capacity
+	}
+	return 0
+}
+
+func (x *HouseDetail) GetComments() []*CommentData {
+	if x != nil {
+		return x.Comments
+	}
+	return nil
+}
+
+func (x *HouseDetail) GetDeposit() int32 {
+	if x != nil {
+		return x.Deposit
+	}
+	return 0
+}
+
+func (x *HouseDetail) GetFacilities() []int32 {
+	if x != nil {
+		return x.Facilities
+	}
+	return nil
+}
+
+func (x *HouseDetail) GetHid() int32 {
+	if x != nil {
+		return x.Hid
+	}
+	return 0
+}
+
+func (x *HouseDetail) GetImgUrls() []string {
+	if x != nil {
+		return x.ImgUrls
+	}
+	return nil
+}
+
+func (x *HouseDetail) GetMaxDays() int32 {
+	if x != nil {
+		return x.MaxDays
+	}
+	return 0
+}
+
+func (x *HouseDetail) GetMinDays() int32 {
+	if x != nil {
+		return x.MinDays
+	}
+	return 0
+}
+
+func (x *HouseDetail) GetPrice() int32 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *HouseDetail) GetRoomCount() int32 {
+	if x != nil {
+		return x.RoomCount
+	}
+	return 0
+}
+
+func (x *HouseDetail) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *HouseDetail) GetUnit() string {
+	if x != nil {
+		return x.Unit
+	}
+	return ""
+}
+
+func (x *HouseDetail) GetUserAvatar() string {
+	if x != nil {
+		return x.UserAvatar
+	}
+	return ""
+}
+
+func (x *HouseDetail) GetUserId() int32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *HouseDetail) GetUserName() string {
+	if x != nil {
+		return x.UserName
+	}
+	return ""
+}
+
+type CommentData struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Comment  string `protobuf:"bytes,1,opt,name=comment,proto3" json:"comment,omitempty"`
+	Ctime    string `protobuf:"bytes,2,opt,name=ctime,proto3" json:"ctime,omitempty"`
+	UserName string `protobuf:"bytes,3,opt,name=user_name,json=userName,proto3" json:"user_name,omitempty"`
+}
+
+func (x *CommentData) Reset() {
+	*x = CommentData{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_house_house_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CommentData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CommentData) ProtoMessage() {}
+
+func (x *CommentData) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_house_house_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CommentData.ProtoReflect.Descriptor instead.
+func (*CommentData) Descriptor() ([]byte, []int) {
+	return file_proto_house_house_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *CommentData) GetComment() string {
+	if x != nil {
+		return x.Comment
+	}
+	return ""
+}
+
+func (x *CommentData) GetCtime() string {
+	if x != nil {
+		return x.Ctime
+	}
+	return ""
+}
+
+func (x *CommentData) GetUserName() string {
+	if x != nil {
+		return x.UserName
+	}
+	return ""
+}
+
 var File_proto_house_house_proto protoreflect.FileDescriptor
 
 var file_proto_house_house_proto_rawDesc = []byte{
@@ -626,7 +1220,76 @@ var file_proto_house_house_proto_rawDesc = []byte{
 	0x73, 0x65, 0x2e, 0x48, 0x6f, 0x75, 0x73, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52, 0x04, 0x64, 0x61,
 	0x74, 0x61, 0x22, 0x26, 0x0a, 0x09, 0x48, 0x6f, 0x75, 0x73, 0x65, 0x44, 0x61, 0x74, 0x61, 0x12,
 	0x19, 0x0a, 0x08, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x07, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x49, 0x64, 0x32, 0x9b, 0x01, 0x0a, 0x05, 0x48,
+	0x09, 0x52, 0x07, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x49, 0x64, 0x22, 0x56, 0x0a, 0x06, 0x49, 0x6d,
+	0x67, 0x52, 0x65, 0x71, 0x12, 0x18, 0x0a, 0x07, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x49, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x49, 0x64, 0x12, 0x18,
+	0x0a, 0x07, 0x69, 0x6d, 0x67, 0x44, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0c, 0x52,
+	0x07, 0x69, 0x6d, 0x67, 0x44, 0x61, 0x74, 0x61, 0x12, 0x18, 0x0a, 0x07, 0x66, 0x69, 0x6c, 0x65,
+	0x45, 0x78, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x66, 0x69, 0x6c, 0x65, 0x45,
+	0x78, 0x74, 0x22, 0x1b, 0x0a, 0x07, 0x49, 0x6d, 0x67, 0x44, 0x61, 0x74, 0x61, 0x12, 0x10, 0x0a,
+	0x03, 0x75, 0x72, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x22,
+	0x68, 0x0a, 0x07, 0x49, 0x6d, 0x67, 0x52, 0x65, 0x73, 0x70, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72,
+	0x72, 0x6e, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6e, 0x6f,
+	0x12, 0x16, 0x0a, 0x06, 0x65, 0x72, 0x72, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x06, 0x65, 0x72, 0x72, 0x6d, 0x73, 0x67, 0x12, 0x2f, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x67, 0x6f, 0x2e, 0x6d, 0x69, 0x63, 0x72,
+	0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e, 0x49, 0x6d, 0x67, 0x44,
+	0x61, 0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x41, 0x0a, 0x09, 0x44, 0x65, 0x74,
+	0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x12, 0x18, 0x0a, 0x07, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x49,
+	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x49, 0x64,
+	0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x6e, 0x0a, 0x0a,
+	0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72,
+	0x72, 0x6e, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6e, 0x6f,
+	0x12, 0x16, 0x0a, 0x06, 0x65, 0x72, 0x72, 0x6d, 0x73, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x06, 0x65, 0x72, 0x72, 0x6d, 0x73, 0x67, 0x12, 0x32, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x67, 0x6f, 0x2e, 0x6d, 0x69, 0x63, 0x72,
+	0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e, 0x44, 0x65, 0x74, 0x61,
+	0x69, 0x6c, 0x44, 0x61, 0x74, 0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x5c, 0x0a, 0x0a,
+	0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x44, 0x61, 0x74, 0x61, 0x12, 0x35, 0x0a, 0x05, 0x68, 0x6f,
+	0x75, 0x73, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1f, 0x2e, 0x67, 0x6f, 0x2e, 0x6d,
+	0x69, 0x63, 0x72, 0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e, 0x48,
+	0x6f, 0x75, 0x73, 0x65, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x52, 0x05, 0x68, 0x6f, 0x75, 0x73,
+	0x65, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x22, 0x81, 0x04, 0x0a, 0x0b, 0x48,
+	0x6f, 0x75, 0x73, 0x65, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x63,
+	0x72, 0x65, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x07, 0x61, 0x63, 0x72,
+	0x65, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x12,
+	0x0a, 0x04, 0x62, 0x65, 0x64, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x62, 0x65,
+	0x64, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x63, 0x61, 0x70, 0x61, 0x63, 0x69, 0x74, 0x79, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x63, 0x61, 0x70, 0x61, 0x63, 0x69, 0x74, 0x79, 0x12, 0x3b,
+	0x0a, 0x08, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x1f, 0x2e, 0x67, 0x6f, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e,
+	0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x44, 0x61, 0x74,
+	0x61, 0x52, 0x08, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x64,
+	0x65, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x07, 0x64, 0x65,
+	0x70, 0x6f, 0x73, 0x69, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x66, 0x61, 0x63, 0x69, 0x6c, 0x69, 0x74,
+	0x69, 0x65, 0x73, 0x18, 0x07, 0x20, 0x03, 0x28, 0x05, 0x52, 0x0a, 0x66, 0x61, 0x63, 0x69, 0x6c,
+	0x69, 0x74, 0x69, 0x65, 0x73, 0x12, 0x10, 0x0a, 0x03, 0x68, 0x69, 0x64, 0x18, 0x08, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x03, 0x68, 0x69, 0x64, 0x12, 0x19, 0x0a, 0x08, 0x69, 0x6d, 0x67, 0x5f, 0x75,
+	0x72, 0x6c, 0x73, 0x18, 0x09, 0x20, 0x03, 0x28, 0x09, 0x52, 0x07, 0x69, 0x6d, 0x67, 0x55, 0x72,
+	0x6c, 0x73, 0x12, 0x19, 0x0a, 0x08, 0x6d, 0x61, 0x78, 0x5f, 0x64, 0x61, 0x79, 0x73, 0x18, 0x0a,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x07, 0x6d, 0x61, 0x78, 0x44, 0x61, 0x79, 0x73, 0x12, 0x19, 0x0a,
+	0x08, 0x6d, 0x69, 0x6e, 0x5f, 0x64, 0x61, 0x79, 0x73, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x05, 0x52,
+	0x07, 0x6d, 0x69, 0x6e, 0x44, 0x61, 0x79, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x72, 0x69, 0x63,
+	0x65, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x05, 0x52, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65, 0x12, 0x1d,
+	0x0a, 0x0a, 0x72, 0x6f, 0x6f, 0x6d, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x0d, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x09, 0x72, 0x6f, 0x6f, 0x6d, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x14, 0x0a,
+	0x05, 0x74, 0x69, 0x74, 0x6c, 0x65, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x69,
+	0x74, 0x6c, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x75, 0x6e, 0x69, 0x74, 0x18, 0x0f, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x75, 0x6e, 0x69, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x75, 0x73, 0x65, 0x72, 0x5f,
+	0x61, 0x76, 0x61, 0x74, 0x61, 0x72, 0x18, 0x10, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x75, 0x73,
+	0x65, 0x72, 0x41, 0x76, 0x61, 0x74, 0x61, 0x72, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72,
+	0x5f, 0x69, 0x64, 0x18, 0x11, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49,
+	0x64, 0x12, 0x1b, 0x0a, 0x09, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x12,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x5a,
+	0x0a, 0x0b, 0x43, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x44, 0x61, 0x74, 0x61, 0x12, 0x18, 0x0a,
+	0x07, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
+	0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x63, 0x74, 0x69, 0x6d, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x63, 0x74, 0x69, 0x6d, 0x65, 0x12, 0x1b, 0x0a,
+	0x09, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x32, 0xbb, 0x02, 0x0a, 0x05, 0x48,
 	0x6f, 0x75, 0x73, 0x65, 0x12, 0x4b, 0x0a, 0x0c, 0x47, 0x65, 0x74, 0x48, 0x6f, 0x75, 0x73, 0x65,
 	0x49, 0x6e, 0x66, 0x6f, 0x12, 0x1b, 0x2e, 0x67, 0x6f, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e,
 	0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x65,
@@ -636,7 +1299,17 @@ var file_proto_house_house_proto_rawDesc = []byte{
 	0x67, 0x6f, 0x2e, 0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75,
 	0x73, 0x65, 0x2e, 0x50, 0x75, 0x62, 0x52, 0x65, 0x71, 0x1a, 0x1b, 0x2e, 0x67, 0x6f, 0x2e, 0x6d,
 	0x69, 0x63, 0x72, 0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e, 0x50,
-	0x75, 0x62, 0x52, 0x65, 0x73, 0x70, 0x22, 0x00, 0x42, 0x0e, 0x5a, 0x0c, 0x2f, 0x70, 0x72, 0x6f,
+	0x75, 0x62, 0x52, 0x65, 0x73, 0x70, 0x22, 0x00, 0x12, 0x4b, 0x0a, 0x0e, 0x55, 0x70, 0x6c, 0x6f,
+	0x61, 0x64, 0x48, 0x6f, 0x75, 0x73, 0x65, 0x49, 0x6d, 0x67, 0x12, 0x1a, 0x2e, 0x67, 0x6f, 0x2e,
+	0x6d, 0x69, 0x63, 0x72, 0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e,
+	0x49, 0x6d, 0x67, 0x52, 0x65, 0x71, 0x1a, 0x1b, 0x2e, 0x67, 0x6f, 0x2e, 0x6d, 0x69, 0x63, 0x72,
+	0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e, 0x49, 0x6d, 0x67, 0x52,
+	0x65, 0x73, 0x70, 0x22, 0x00, 0x12, 0x51, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x48, 0x6f, 0x75, 0x73,
+	0x65, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x12, 0x1d, 0x2e, 0x67, 0x6f, 0x2e, 0x6d, 0x69, 0x63,
+	0x72, 0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e, 0x44, 0x65, 0x74,
+	0x61, 0x69, 0x6c, 0x52, 0x65, 0x71, 0x1a, 0x1e, 0x2e, 0x67, 0x6f, 0x2e, 0x6d, 0x69, 0x63, 0x72,
+	0x6f, 0x2e, 0x73, 0x72, 0x76, 0x2e, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x2e, 0x44, 0x65, 0x74, 0x61,
+	0x69, 0x6c, 0x52, 0x65, 0x73, 0x70, 0x22, 0x00, 0x42, 0x0e, 0x5a, 0x0c, 0x2f, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x2f, 0x68, 0x6f, 0x75, 0x73, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
@@ -652,29 +1325,45 @@ func file_proto_house_house_proto_rawDescGZIP() []byte {
 	return file_proto_house_house_proto_rawDescData
 }
 
-var file_proto_house_house_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_proto_house_house_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_proto_house_house_proto_goTypes = []interface{}{
-	(*InfoReq)(nil),   // 0: go.micro.srv.house.InfoReq
-	(*InfoResp)(nil),  // 1: go.micro.srv.house.InfoResp
-	(*GetData)(nil),   // 2: go.micro.srv.house.GetData
-	(*Houses)(nil),    // 3: go.micro.srv.house.Houses
-	(*PubReq)(nil),    // 4: go.micro.srv.house.PubReq
-	(*PubResp)(nil),   // 5: go.micro.srv.house.PubResp
-	(*HouseData)(nil), // 6: go.micro.srv.house.HouseData
+	(*InfoReq)(nil),     // 0: go.micro.srv.house.InfoReq
+	(*InfoResp)(nil),    // 1: go.micro.srv.house.InfoResp
+	(*GetData)(nil),     // 2: go.micro.srv.house.GetData
+	(*Houses)(nil),      // 3: go.micro.srv.house.Houses
+	(*PubReq)(nil),      // 4: go.micro.srv.house.PubReq
+	(*PubResp)(nil),     // 5: go.micro.srv.house.PubResp
+	(*HouseData)(nil),   // 6: go.micro.srv.house.HouseData
+	(*ImgReq)(nil),      // 7: go.micro.srv.house.ImgReq
+	(*ImgData)(nil),     // 8: go.micro.srv.house.ImgData
+	(*ImgResp)(nil),     // 9: go.micro.srv.house.ImgResp
+	(*DetailReq)(nil),   // 10: go.micro.srv.house.DetailReq
+	(*DetailResp)(nil),  // 11: go.micro.srv.house.DetailResp
+	(*DetailData)(nil),  // 12: go.micro.srv.house.DetailData
+	(*HouseDetail)(nil), // 13: go.micro.srv.house.HouseDetail
+	(*CommentData)(nil), // 14: go.micro.srv.house.CommentData
 }
 var file_proto_house_house_proto_depIdxs = []int32{
-	2, // 0: go.micro.srv.house.InfoResp.data:type_name -> go.micro.srv.house.GetData
-	3, // 1: go.micro.srv.house.GetData.houses:type_name -> go.micro.srv.house.Houses
-	6, // 2: go.micro.srv.house.PubResp.data:type_name -> go.micro.srv.house.HouseData
-	0, // 3: go.micro.srv.house.House.GetHouseInfo:input_type -> go.micro.srv.house.InfoReq
-	4, // 4: go.micro.srv.house.House.PubHouse:input_type -> go.micro.srv.house.PubReq
-	1, // 5: go.micro.srv.house.House.GetHouseInfo:output_type -> go.micro.srv.house.InfoResp
-	5, // 6: go.micro.srv.house.House.PubHouse:output_type -> go.micro.srv.house.PubResp
-	5, // [5:7] is the sub-list for method output_type
-	3, // [3:5] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	2,  // 0: go.micro.srv.house.InfoResp.data:type_name -> go.micro.srv.house.GetData
+	3,  // 1: go.micro.srv.house.GetData.houses:type_name -> go.micro.srv.house.Houses
+	6,  // 2: go.micro.srv.house.PubResp.data:type_name -> go.micro.srv.house.HouseData
+	8,  // 3: go.micro.srv.house.ImgResp.data:type_name -> go.micro.srv.house.ImgData
+	12, // 4: go.micro.srv.house.DetailResp.data:type_name -> go.micro.srv.house.DetailData
+	13, // 5: go.micro.srv.house.DetailData.house:type_name -> go.micro.srv.house.HouseDetail
+	14, // 6: go.micro.srv.house.HouseDetail.comments:type_name -> go.micro.srv.house.CommentData
+	0,  // 7: go.micro.srv.house.House.GetHouseInfo:input_type -> go.micro.srv.house.InfoReq
+	4,  // 8: go.micro.srv.house.House.PubHouse:input_type -> go.micro.srv.house.PubReq
+	7,  // 9: go.micro.srv.house.House.UploadHouseImg:input_type -> go.micro.srv.house.ImgReq
+	10, // 10: go.micro.srv.house.House.GetHouseDetail:input_type -> go.micro.srv.house.DetailReq
+	1,  // 11: go.micro.srv.house.House.GetHouseInfo:output_type -> go.micro.srv.house.InfoResp
+	5,  // 12: go.micro.srv.house.House.PubHouse:output_type -> go.micro.srv.house.PubResp
+	9,  // 13: go.micro.srv.house.House.UploadHouseImg:output_type -> go.micro.srv.house.ImgResp
+	11, // 14: go.micro.srv.house.House.GetHouseDetail:output_type -> go.micro.srv.house.DetailResp
+	11, // [11:15] is the sub-list for method output_type
+	7,  // [7:11] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_proto_house_house_proto_init() }
@@ -767,6 +1456,102 @@ func file_proto_house_house_proto_init() {
 				return nil
 			}
 		}
+		file_proto_house_house_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ImgReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_house_house_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ImgData); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_house_house_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ImgResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_house_house_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DetailReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_house_house_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DetailResp); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_house_house_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DetailData); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_house_house_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*HouseDetail); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_house_house_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CommentData); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -774,7 +1559,7 @@ func file_proto_house_house_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_house_house_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
