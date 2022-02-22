@@ -2,6 +2,8 @@ package handler
 
 import (
 	"context"
+	"fmt"
+	"github.com/tedcy/fdfs_client"
 	"service/house/model"
 	"service/house/utils"
 	"strconv"
@@ -55,5 +57,38 @@ func (e *House) PubHouse(ctx context.Context, req *house.PubReq, resp *house.Pub
 	var h house.HouseData
 	h.HouseId = strconv.Itoa(houseId)
 	resp.Data = &h
+	return nil
+}
+
+// 上传房屋图片
+func (e *House) UploadHouseImg(ctx context.Context, req *house.ImgReq,  resp *house.ImgResp) error {
+	//初始化fdfs的客户端
+	fClient ,_:=fdfs_client.NewClientWithConfig("/etc/fdfs/client.conf")
+	// 上传图片到fdfs
+	remoteId, err := fClient.UploadByBuffer(req.ImgData, req.FileExt[1:])
+	if err != nil{
+		fmt.Println("上传图片到fdfs发生错误")
+		resp.Errno = utils.RECODE_DATAERR
+		resp.Errmsg = utils.RecodeText(utils.RECODE_DATAERR)
+		return nil
+	}
+
+	// 把凭证存入数据库
+	err = model.SaveHouseImg(req.HouseId, remoteId)
+	if err != nil{
+		fmt.Println("凭证存入数据库错误")
+		resp.Errno = utils.RECODE_DBWRITERR
+		resp.Errmsg = utils.RecodeText(utils.RECODE_DBWRITERR)
+		return nil
+	}
+
+	// 成功：返回结果
+	resp.Errno = utils.RECODE_OK
+	resp.Errmsg = utils.RecodeText(utils.RECODE_OK)
+
+	var img house.ImgData
+	img.Url = "http://192.168.17.129:8888/" + remoteId
+	resp.Data = &img
+
 	return nil
 }

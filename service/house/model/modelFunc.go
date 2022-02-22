@@ -115,3 +115,10 @@ func AddHouse(req *house.PubReq) (int, error) {
 	}
 	return int(houseInfo.ID), nil
 }
+
+// 房屋图片存入数据库
+func SaveHouseImg(houseId, imgPath string) error{
+	return GlobalConn.Model(new(House)).
+		Where("id = ?", houseId).
+		Update("index_image_url", imgPath).Error
+}

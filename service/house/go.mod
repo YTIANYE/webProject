@@ -9,5 +9,6 @@ require (
 	github.com/micro/go-micro v1.18.0
 	github.com/micro/go-plugins v1.5.1
 	github.com/stretchr/testify v1.7.0 // indirect
+	github.com/tedcy/fdfs_client v0.0.0-20200106031142-21a04994525a
 	google.golang.org/protobuf v1.27.1
 )

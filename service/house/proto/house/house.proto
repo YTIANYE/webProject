@@ -6,8 +6,12 @@ option go_package = "/proto/house";  //防止错误 protoc-gen-go: unable to det
 
 service House {
 
+	// 查询房屋信息
 	rpc GetHouseInfo(InfoReq) returns (InfoResp){}
+	// 发布房屋信息
 	rpc PubHouse(PubReq) returns (PubResp){}
+	// 上传房屋图片
+	rpc UploadHouseImg(ImgReq) returns (ImgResp){}
 }
 
 // 查询房屋信息
@@ -65,4 +69,22 @@ message PubResp{
 
 message HouseData {
 	string house_id = 1;
+}
+
+// 上传房屋图片
+
+message ImgReq {
+	string houseId = 1;
+	bytes imgData = 2;
+	string fileExt = 3;
+}
+
+message ImgData{
+	string url = 1;
+}
+
+message ImgResp{
+	string errno = 1;
+	string errmsg = 2;
+	ImgData data = 3;
 }
