@@ -173,7 +173,7 @@ func GetHouseDetail(houseId, userName string) (house.DetailData, error) {
 
 	// 3. 获取房屋家具信息
 	var facs []Facility
-	if err := GlobalConn.Model(&houseInfo).Related(facs, "Facilities").Error; err != nil {
+	if err := GlobalConn.Model(&houseInfo).Related(&facs, "Facilities").Error; err != nil {
 		fmt.Println("获取房屋家具信息错误：", err)
 		return respData, nil
 	}
