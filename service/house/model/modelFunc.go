@@ -8,9 +8,11 @@ import (
 )
 
 // 创建全局连接池 redis 句柄
+
 var RedisPool redis.Pool
 
 // 创建函数 初始化连接池
+
 func InitRedis() {
 	// 连接 Redis 连接池
 	RedisPool = redis.Pool{
@@ -117,6 +119,7 @@ func AddHouse(req *house.PubReq) (int, error) {
 }
 
 // 房屋图片存入数据库
+
 func SaveHouseImg(houseId, imgPath string) error {
 	return GlobalConn.Model(new(House)).
 		Where("id = ?", houseId).
@@ -124,6 +127,7 @@ func SaveHouseImg(houseId, imgPath string) error {
 }
 
 // 获取房屋详细信息
+
 func GetHouseDetail(houseId, userName string) (house.DetailData, error) {
 	var respData house.DetailData     // 返回数据
 	var houseDetail house.HouseDetail //
@@ -184,19 +188,19 @@ func GetHouseDetail(houseId, userName string) (house.DetailData, error) {
 
 	// 4. 获取幅图片
 	var imgs []HouseImage
-	if err := GlobalConn.Model(&houseInfo).Related(&imgs).Error; err != nil{
+	if err := GlobalConn.Model(&houseInfo).Related(&imgs).Error; err != nil {
 		fmt.Println("该房屋没有副图片")
 	}
 	// 查询房屋副图片成功
-	for _, v := range imgs{
-		if len(imgs)!=0{
-			houseDetail.ImgUrls = append(houseDetail.ImgUrls, "http://192.168.17.129:8888/" + v.Url)
+	for _, v := range imgs {
+		if len(imgs) != 0 {
+			houseDetail.ImgUrls = append(houseDetail.ImgUrls, "http://192.168.17.129:8888/"+v.Url)
 		}
 	}
 
 	// 5. 获取房屋所有者信息
 	var user User
-	if err:= GlobalConn.Model(&houseInfo).Related(&user).Error; err != nil{
+	if err := GlobalConn.Model(&houseInfo).Related(&user).Error; err != nil {
 		fmt.Println("查询房屋所有者错误：", err)
 		return respData, nil
 	}
@@ -210,10 +214,41 @@ func GetHouseDetail(houseId, userName string) (house.DetailData, error) {
 
 	// 获取浏览人信息
 	var nowUser User
-	if err := GlobalConn.Where("name = ?", userName).Find(&nowUser).Error; err != nil{
+	if err := GlobalConn.Where("name = ?", userName).Find(&nowUser).Error; err != nil {
 		fmt.Println("查询当前浏览人信息错误", err)
 		return respData, nil
 	}
 	respData.UserId = int32(nowUser.ID)
 	return respData, nil
+}
+
+// 获取房屋信息
+func GetIndexHouse()([]*house.Houses, error){
+	var housesResp []*house.Houses
+	var houses []House
+	if err:= GlobalConn.Limit(5).Find(&houses).Error; err != nil{
+		fmt.Println("获取房屋信息失败",err)
+		return nil,err
+	}
+	for _, v := range houses{
+		var houseTemp house.Houses
+		houseTemp.Address = v.Address
+		//根据房屋信息获取地域信息
+		var area Area
+		var user User
+		GlobalConn.Model(&v).Related(&area).Related(&user)
+		houseTemp.AreaName = area.Name
+		houseTemp.Ctime = v.CreatedAt.Format("2006-01-02 15:04:05")
+		houseTemp.HouseId = int32(v.ID)
+		houseTemp.ImgUrl = "http://192.168.17.129:8888/"+v.Index_image_url
+		houseTemp.OrderCount = int32(v.Order_count)
+		houseTemp.Price = int32(v.Price)
+		houseTemp.RoomCount = int32(v.Room_count)
+		houseTemp.Title = v.Title
+		houseTemp.UserAvatar = "http://192.168.17.129:8888/"+user.Avatar_url
+
+		housesResp = append(housesResp, &houseTemp)
+	}
+
+	return housesResp, nil
 }

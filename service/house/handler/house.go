@@ -112,3 +112,20 @@ func (e *House) GetHouseDetail(ctx context.Context, req *house.DetailReq, resp *
 
 	return nil
 }
+
+// 获取首页轮播图
+func (e *House) GetHouseIndex(ctx context.Context, req *house.IndexReq, resp *house.GetResp) error {
+	houseResp, err := model.GetIndexHouse()
+	if err != nil{
+		resp.Errno = utils.RECODE_DBERR
+		resp.Errmsg = utils.RecodeText(utils.RECODE_DBERR)
+		return nil
+	}
+
+	resp.Errno = utils.RECODE_OK
+	resp.Errmsg = utils.RecodeText(utils.RECODE_OK)
+	resp.Data = &house.GetData{
+		Houses: houseResp,
+	}
+	return nil
+}

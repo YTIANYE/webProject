@@ -42,6 +42,8 @@ type HouseService interface {
 	UploadHouseImg(ctx context.Context, in *ImgReq, opts ...client.CallOption) (*ImgResp, error)
 	// 查询房屋具体信息
 	GetHouseDetail(ctx context.Context, in *DetailReq, opts ...client.CallOption) (*DetailResp, error)
+	// 首页轮播图
+	GetHouseIndex(ctx context.Context, in *IndexReq, opts ...client.CallOption) (*GetResp, error)
 }
 
 type houseService struct {
@@ -102,6 +104,16 @@ func (c *houseService) GetHouseDetail(ctx context.Context, in *DetailReq, opts .
 	return out, nil
 }
 
+func (c *houseService) GetHouseIndex(ctx context.Context, in *IndexReq, opts ...client.CallOption) (*GetResp, error) {
+	req := c.c.NewRequest(c.name, "House.GetHouseIndex", in)
+	out := new(GetResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for House service
 
 type HouseHandler interface {
@@ -113,6 +125,8 @@ type HouseHandler interface {
 	UploadHouseImg(context.Context, *ImgReq, *ImgResp) error
 	// 查询房屋具体信息
 	GetHouseDetail(context.Context, *DetailReq, *DetailResp) error
+	// 首页轮播图
+	GetHouseIndex(context.Context, *IndexReq, *GetResp) error
 }
 
 func RegisterHouseHandler(s server.Server, hdlr HouseHandler, opts ...server.HandlerOption) error {
@@ -121,6 +135,7 @@ func RegisterHouseHandler(s server.Server, hdlr HouseHandler, opts ...server.Han
 		PubHouse(ctx context.Context, in *PubReq, out *PubResp) error
 		UploadHouseImg(ctx context.Context, in *ImgReq, out *ImgResp) error
 		GetHouseDetail(ctx context.Context, in *DetailReq, out *DetailResp) error
+		GetHouseIndex(ctx context.Context, in *IndexReq, out *GetResp) error
 	}
 	type House struct {
 		house
@@ -147,4 +162,8 @@ func (h *houseHandler) UploadHouseImg(ctx context.Context, in *ImgReq, out *ImgR
 
 func (h *houseHandler) GetHouseDetail(ctx context.Context, in *DetailReq, out *DetailResp) error {
 	return h.HouseHandler.GetHouseDetail(ctx, in, out)
+}
+
+func (h *houseHandler) GetHouseIndex(ctx context.Context, in *IndexReq, out *GetResp) error {
+	return h.HouseHandler.GetHouseIndex(ctx, in, out)
 }
