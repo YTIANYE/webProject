@@ -16,6 +16,8 @@ service House {
   rpc GetHouseDetail(DetailReq) returns (DetailResp){};
   // 首页轮播图
   rpc GetHouseIndex(IndexReq) returns (GetResp) {};
+  // 搜索房屋
+  rpc SearchHouse(SearchReq)returns(GetResp){};
 
 }
 
@@ -152,3 +154,12 @@ message GetResp{
   string errmsg = 2;
   GetData data = 3;
 }
+
+// 搜索房屋
+message SearchReq{
+  string aid = 1;
+  string sd = 2;
+  string ed = 3;
+  string sk = 4;
+}
+

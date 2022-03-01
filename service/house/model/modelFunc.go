@@ -5,6 +5,7 @@ import (
 	"github.com/gomodule/redigo/redis"
 	"service/house/proto/house"
 	"strconv"
+	"time"
 )
 
 // 创建全局连接池 redis 句柄
@@ -223,20 +224,65 @@ func GetHouseDetail(houseId, userName string) (house.DetailData, error) {
 }
 
 // 获取房屋信息
-func GetIndexHouse()([]*house.Houses, error){
+func GetIndexHouse() ([]*house.Houses, error) {
 	var housesResp []*house.Houses
 	var houses []House
-	if err:= GlobalConn.Limit(5).Find(&houses).Error; err != nil{
-		fmt.Println("获取房屋信息失败",err)
-		return nil,err
+	if err := GlobalConn.Limit(5).Find(&houses).Error; err != nil {
+		fmt.Println("获取房屋信息失败", err)
+		return nil, err
 	}
-	for _, v := range houses{
+	for _, v := range houses {
 		var houseTemp house.Houses
 		houseTemp.Address = v.Address
 		//根据房屋信息获取地域信息
 		var area Area
 		var user User
 		GlobalConn.Model(&v).Related(&area).Related(&user)
+		houseTemp.AreaName = area.Name
+		houseTemp.Ctime = v.CreatedAt.Format("2006-01-02 15:04:05")
+		houseTemp.HouseId = int32(v.ID)
+		houseTemp.ImgUrl = "http://192.168.17.129:8888/" + v.Index_image_url
+		houseTemp.OrderCount = int32(v.Order_count)
+		houseTemp.Price = int32(v.Price)
+		houseTemp.RoomCount = int32(v.Room_count)
+		houseTemp.Title = v.Title
+		houseTemp.UserAvatar = "http://192.168.17.129:8888/" + user.Avatar_url
+
+		housesResp = append(housesResp, &houseTemp)
+	}
+
+	return housesResp, nil
+}
+
+// 搜索房屋
+func SearhHouse(areaId, sd, ed, sk string) ([]*house.Houses, error) {
+	var houseInfos []House
+
+	//   minDays  <  (结束时间  -  开始时间) <  max_days
+	//计算一个差值  先把string类型转为time类型
+	sdTime, _ := time.Parse("2006-01-02", sd)
+	edTime, _ := time.Parse("2006-01-02", ed)
+	dur := edTime.Sub(sdTime)
+
+	err := GlobalConn.Where("area_id = ?", areaId).
+		Where("min_days < ?", dur.Hours()/24).
+		Where("max_days > ?", dur.Hours()/24).
+		Order("created_at desc").Find(&houseInfos).Error
+	if err != nil {
+		fmt.Println("搜索房屋失败",err)
+		return nil,err
+	}
+
+	var housesResp []*house.Houses
+
+	for _, v := range houseInfos{
+		var houseTemp house.Houses
+		houseTemp.Address = v.Address
+		// 查询房屋对应的地域信息
+		var area Area
+		var user User
+		GlobalConn.Model(&v).Related(&area).Related(&user)
+
 		houseTemp.AreaName = area.Name
 		houseTemp.Ctime = v.CreatedAt.Format("2006-01-02 15:04:05")
 		houseTemp.HouseId = int32(v.ID)

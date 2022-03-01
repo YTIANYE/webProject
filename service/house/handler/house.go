@@ -129,3 +129,21 @@ func (e *House) GetHouseIndex(ctx context.Context, req *house.IndexReq, resp *ho
 	}
 	return nil
 }
+
+// 搜索房屋
+func (e *House) SearchHouse(ctx context.Context, req *house.SearchReq, resp *house.GetResp) error {
+	log.Log("Received House.SearchHouse request")
+
+	houseResp, err := model.SearhHouse(req.Aid, req.Sd, req.Ed, req.Sk)
+	if err != nil{
+		resp.Errno = utils.RECODE_DATAERR
+		resp.Errmsg = utils.RecodeText(utils.RECODE_DATAERR)
+		return nil
+	}
+	resp.Errno = utils.RECODE_OK
+	resp.Errmsg = utils.RecodeText(utils.RECODE_OK)
+	resp.Data = &house.GetData{
+		Houses:houseResp,
+	}
+	return nil
+}

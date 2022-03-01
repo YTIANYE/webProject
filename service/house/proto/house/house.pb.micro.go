@@ -44,6 +44,8 @@ type HouseService interface {
 	GetHouseDetail(ctx context.Context, in *DetailReq, opts ...client.CallOption) (*DetailResp, error)
 	// 首页轮播图
 	GetHouseIndex(ctx context.Context, in *IndexReq, opts ...client.CallOption) (*GetResp, error)
+	// 搜索房屋
+	SearchHouse(ctx context.Context, in *SearchReq, opts ...client.CallOption) (*GetResp, error)
 }
 
 type houseService struct {
@@ -114,6 +116,16 @@ func (c *houseService) GetHouseIndex(ctx context.Context, in *IndexReq, opts ...
 	return out, nil
 }
 
+func (c *houseService) SearchHouse(ctx context.Context, in *SearchReq, opts ...client.CallOption) (*GetResp, error) {
+	req := c.c.NewRequest(c.name, "House.SearchHouse", in)
+	out := new(GetResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for House service
 
 type HouseHandler interface {
@@ -127,6 +139,8 @@ type HouseHandler interface {
 	GetHouseDetail(context.Context, *DetailReq, *DetailResp) error
 	// 首页轮播图
 	GetHouseIndex(context.Context, *IndexReq, *GetResp) error
+	// 搜索房屋
+	SearchHouse(context.Context, *SearchReq, *GetResp) error
 }
 
 func RegisterHouseHandler(s server.Server, hdlr HouseHandler, opts ...server.HandlerOption) error {
@@ -136,6 +150,7 @@ func RegisterHouseHandler(s server.Server, hdlr HouseHandler, opts ...server.Han
 		UploadHouseImg(ctx context.Context, in *ImgReq, out *ImgResp) error
 		GetHouseDetail(ctx context.Context, in *DetailReq, out *DetailResp) error
 		GetHouseIndex(ctx context.Context, in *IndexReq, out *GetResp) error
+		SearchHouse(ctx context.Context, in *SearchReq, out *GetResp) error
 	}
 	type House struct {
 		house
@@ -166,4 +181,8 @@ func (h *houseHandler) GetHouseDetail(ctx context.Context, in *DetailReq, out *D
 
 func (h *houseHandler) GetHouseIndex(ctx context.Context, in *IndexReq, out *GetResp) error {
 	return h.HouseHandler.GetHouseIndex(ctx, in, out)
+}
+
+func (h *houseHandler) SearchHouse(ctx context.Context, in *SearchReq, out *GetResp) error {
+	return h.HouseHandler.SearchHouse(ctx, in, out)
 }
