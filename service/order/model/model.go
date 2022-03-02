@@ -64,7 +64,7 @@ type HouseImage struct {
 	HouseId uint `json:"house_id"` //图片所属房屋编号
 }
 
-/* 订单 table_name = order */
+/* 订单 table_name = order_house */
 type OrderHouse struct {
 	gorm.Model               //订单编号
 	UserId        uint     `json:"user_id"`  //下单的用户编号   //与用户表进行关联
