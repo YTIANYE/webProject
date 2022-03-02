@@ -97,7 +97,7 @@ func GetOrderInfo(role, userName string) ([]*order.OrdersData, error) {
 		GlobalConn.Where("user_id = ?", userData.Id).Find(&houses)
 		for  _,v := range houses{
 			var tempOrders []OrderHouse
-			GlobalConn.Model(&v).Related(tempOrders)
+			GlobalConn.Model(&v).Related(&tempOrders)
 			orders = append(orders, tempOrders...)
 		}
 	}
