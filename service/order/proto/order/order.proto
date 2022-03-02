@@ -7,7 +7,7 @@ option go_package = "/proto/order";  //防止错误 protoc-gen-go: unable to det
 service Order {
 	rpc CreateOrder(CreateReq) returns (CreateResp) {}
 	rpc GetUserOrder(GetReq) returns (GetResp) {}
-
+	rpc StateOrder(StateReq) returns (StateResp) {}
 }
 
 
@@ -56,4 +56,16 @@ message OrdersData{
 	string start_date = 8;
 	string status = 9;
 	string title = 10;
+}
+
+// 更改订单状态
+message StateReq {
+	string action = 1;
+	string reason = 2;
+	string id = 3;
+}
+
+message StateResp {
+	string errno = 1;
+	string errmsg = 2;
 }

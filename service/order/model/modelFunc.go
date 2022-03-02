@@ -124,3 +124,17 @@ func GetOrderInfo(role, userName string) ([]*order.OrdersData, error) {
 	}
 	return orderResp,nil
 }
+
+// 接受/拒绝订单
+
+func StateOrder(action, reason, id string) error {
+	db := GlobalConn.Model(new(OrderHouse)).Where("id = ?", id)
+
+	if action == "accept"{
+		//标示房东同意订单
+		return db.Update("status","WAIT_COMMENT").Error
+	}else{
+		//表示房东不同意订单  如果拒单把拒绝的原因写到comment中
+		return db.Updates(map[string]interface{}{"status":"REJECTED","comment":reason}).Error
+	}
+}

@@ -54,3 +54,20 @@ func (o Order) GetUserOrder(ctx context.Context, req *order.GetReq, resp *order.
 
 	return nil
 }
+
+// 接受或拒绝订单
+
+func (o Order) StateOrder(ctx context.Context, req *order.StateReq, resp *order.StateResp) error {
+	err := model.StateOrder(req.Action, req.Reason, req.Id)
+	if err != nil{
+		fmt.Println("更新订单状态失败：", err )
+		resp.Errno = utils.RECODE_DBWRITERR
+		resp.Errmsg = utils.RecodeText(utils.RECODE_DATAERR)
+		return err
+	}
+
+	resp.Errno = utils.RECODE_OK
+	resp.Errmsg = utils.RecodeText(utils.RECODE_DATAERR)
+
+	return nil
+}
