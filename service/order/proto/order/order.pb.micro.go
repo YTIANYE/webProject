@@ -35,6 +35,7 @@ var _ server.Option
 
 type OrderService interface {
 	CreateOrder(ctx context.Context, in *CreateReq, opts ...client.CallOption) (*CreateResp, error)
+	GetUserOrder(ctx context.Context, in *GetReq, opts ...client.CallOption) (*GetResp, error)
 }
 
 type orderService struct {
@@ -65,15 +66,27 @@ func (c *orderService) CreateOrder(ctx context.Context, in *CreateReq, opts ...c
 	return out, nil
 }
 
+func (c *orderService) GetUserOrder(ctx context.Context, in *GetReq, opts ...client.CallOption) (*GetResp, error) {
+	req := c.c.NewRequest(c.name, "Order.GetUserOrder", in)
+	out := new(GetResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Order service
 
 type OrderHandler interface {
 	CreateOrder(context.Context, *CreateReq, *CreateResp) error
+	GetUserOrder(context.Context, *GetReq, *GetResp) error
 }
 
 func RegisterOrderHandler(s server.Server, hdlr OrderHandler, opts ...server.HandlerOption) error {
 	type order interface {
 		CreateOrder(ctx context.Context, in *CreateReq, out *CreateResp) error
+		GetUserOrder(ctx context.Context, in *GetReq, out *GetResp) error
 	}
 	type Order struct {
 		order
@@ -88,4 +101,8 @@ type orderHandler struct {
 
 func (h *orderHandler) CreateOrder(ctx context.Context, in *CreateReq, out *CreateResp) error {
 	return h.OrderHandler.CreateOrder(ctx, in, out)
+}
+
+func (h *orderHandler) GetUserOrder(ctx context.Context, in *GetReq, out *GetResp) error {
+	return h.OrderHandler.GetUserOrder(ctx, in, out)
 }

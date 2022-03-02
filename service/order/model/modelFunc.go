@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"github.com/gomodule/redigo/redis"
+	"service/order/proto/order"
 	"strconv"
 	"time"
 )
@@ -65,9 +66,61 @@ func CreateOrder(houseId, startDate, endDate, userName string) (int, error) {
 	order.Amount = house.Price * order.Days
 
 	// 创建订单
-	if err:= GlobalConn.Create(&order).Error;err != nil{
+	if err := GlobalConn.Create(&order).Error; err != nil {
 		fmt.Println("创建订单失败：", err)
 		return 0, err
 	}
 	return int(order.ID), nil
+}
+
+// 查看用户订单
+
+func GetOrderInfo(role, userName string) ([]*order.OrdersData, error) {
+	// 返回结果
+	var orderResp []*order.OrdersData
+
+	// 用户的所有订单
+	var orders []OrderHouse
+
+	var userData UserData
+	//用原生查询的时候,查询的字段必须跟数据库中的字段保持一直
+	GlobalConn.Raw("select id from user where name = ?",userName).Scan(&userData)
+
+	// 用户 分为 顾客 和 房主
+	if role == "custom"{//顾客
+		if err := GlobalConn.Where("user_id = ?", userData.Id).Find(&orders).Error; err != nil{
+			fmt.Println("获取顾客的订单信息失败", err)
+			return nil, err
+		}
+	}else {// 房主
+		var houses []House
+		GlobalConn.Where("user_id = ?", userData.Id).Find(&houses)
+		for  _,v := range houses{
+			var tempOrders []OrderHouse
+			GlobalConn.Model(&v).Related(tempOrders)
+			orders = append(orders, tempOrders...)
+		}
+	}
+
+	// 添加返回信息
+	for _, v := range orders{
+		var orderTemp order.OrdersData
+		orderTemp.OrderId = int32(v.ID)
+		orderTemp.EndDate = v.End_date.Format("2006-01-02")
+		orderTemp.StartDate = v.Begin_date.Format("2006-01-02")
+		orderTemp.Ctime = v.CreatedAt.Format("2006-01-02")
+		orderTemp.Amount = int32(v.Amount)
+		orderTemp.Comment = v.Comment
+		orderTemp.Days = int32(v.Days)
+		orderTemp.Status = v.Status
+
+		//关联house表
+		var house House
+		GlobalConn.Model(&v).Related(&house).Select("index_image_url","title")
+		orderTemp.ImgUrl = "http://192.168.17.129:8888/"+house.Index_image_url
+		orderTemp.Title = house.Title
+
+		orderResp = append(orderResp, &orderTemp)
+	}
+	return orderResp,nil
 }

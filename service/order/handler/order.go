@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"github.com/micro/go-micro/util/log"
 	"service/order/model"
 	order "service/order/proto/order"
@@ -10,6 +11,9 @@ import (
 )
 
 type Order struct{}
+
+
+// 创建订单
 
 func (o Order) CreateOrder(ctx context.Context, request *order.CreateReq, response *order.CreateResp) error {
 	orderId, err:= model.CreateOrder(request.HouseId, request.StartDate, request.EndDate, request.UserName)
@@ -31,3 +35,22 @@ func (o Order) CreateOrder(ctx context.Context, request *order.CreateReq, respon
 	return nil
 }
 
+// 查询用户订单
+
+func (o Order) GetUserOrder(ctx context.Context, req *order.GetReq, resp *order.GetResp) error {
+	respData, err := model.GetOrderInfo(req.GetRole(), req.GetUserName())
+	if err != nil{
+		fmt.Println("获取用户订单信息失败：", err)
+		resp.Errno = utils.RECODE_DATAERR
+		resp.Errmsg = utils.RecodeText(utils.RECODE_DATAERR)
+		return err
+	}
+
+	resp.Errno = utils.RECODE_OK
+	resp.Errmsg = utils.RecodeText(utils.RECODE_OK)
+	var getData order.GetData
+	getData.Orders = respData
+	resp.Data = &getData
+
+	return nil
+}

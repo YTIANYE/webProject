@@ -6,6 +6,7 @@ option go_package = "/proto/order";  //防止错误 protoc-gen-go: unable to det
 
 service Order {
 	rpc CreateOrder(CreateReq) returns (CreateResp) {}
+	rpc GetUserOrder(GetReq) returns (GetResp) {}
 
 }
 
@@ -26,4 +27,33 @@ message CreateResp {
 
 message OrderData{
 	string order_id = 1;
+}
+
+// 查看订单
+message GetReq{
+	string role = 1;
+	string userName = 2;
+}
+
+message GetResp{
+	string errno = 1;
+	string errmsg = 2;
+	GetData data = 3;
+}
+
+message GetData{
+	repeated OrdersData orders = 1;
+}
+
+message OrdersData{
+	int32 amount = 1;
+	string comment = 2;
+	string ctime = 3;
+	int32 days = 4;
+	string end_date = 5;
+	string img_url = 6;
+	int32 order_id = 7;
+	string start_date = 8;
+	string status = 9;
+	string title = 10;
 }
