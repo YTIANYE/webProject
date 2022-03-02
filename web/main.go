@@ -75,6 +75,11 @@ func main() {
 		r1.POST("/houses/:id/images", controller.PostHousesImage)
 		// 查看房源详细信息
 		r1.GET("/houses/:id", controller.GetHouseDetailInfo)
+		// 获取首页动画图片
+		r1.GET("/house/index", controller.GetHouseIndex)
+		// 搜索房屋
+		r1.GET("/houses", controller.GetHouses)
+
 
 	}
 

@@ -146,3 +146,41 @@ func GetHouseDetailInfo(ctx *gin.Context) {
 	// 返回信息
 	ctx.JSON(http.StatusOK, resp)
 }
+
+// 获取首页动画图片
+func GetHouseIndex(ctx *gin.Context) {
+	// 远程调用
+	microClient := houseMicro.NewHouseService("go.micro.srv.house", utils.GetMicroClient())
+	resp, _ := microClient.GetHouseIndex(context.TODO(), &houseMicro.IndexReq{})
+	ctx.JSON(http.StatusOK, resp)
+
+}
+
+// 搜索房屋
+func GetHouses(ctx *gin.Context) {
+	//获取数据
+	//areaId
+	aid := ctx.Query("aid")
+	//start day
+	sd := ctx.Query("sd")
+	//end day
+	ed := ctx.Query("ed")
+	//排序方式
+	sk := ctx.Query("sk")
+	//page  第几页
+	//ctx.Query("p")
+	//校验数据
+	if aid == "" || sd == "" || ed == "" || sk == "" {
+		fmt.Println("传入数据不完整")
+		return
+	}
+
+	microClient := houseMicro.NewHouseService("go.micro.srv.house", utils.GetMicroClient())
+	resp, _ := microClient.SearchHouse(context.TODO(), &houseMicro.SearchReq{
+		Aid: aid,
+		Sd: sd,
+		Ed: ed,
+		Sk: sk,
+	})
+	ctx.JSON(http.StatusOK, resp)
+}

@@ -19,3 +19,6 @@ ps aux | grep fdfs
 sudo /usr/local/nginx/sbin/nginx
 查看
 ps aux | grep nginx
+
+创建微服务
+micro new --type "srv" --gopath="false" service/GetUserHouses

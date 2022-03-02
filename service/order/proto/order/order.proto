@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package go.micro.srv.order;
+
+option go_package = "/proto/order";  //防止错误 protoc-gen-go: unable to determine Go import path
+
+service Order {
+	rpc Call(Request) returns (Response) {}
+
+}
+
+message Request {
+	string name = 1;
+}
+
+message Response {
+	string msg = 1;
+}

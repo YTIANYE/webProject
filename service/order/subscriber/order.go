@@ -1,5 +1,5 @@
 package subscriber
 
-type House struct{}
+type Order struct{}
 
 
