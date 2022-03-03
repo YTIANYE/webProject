@@ -37,6 +37,7 @@ type OrderService interface {
 	CreateOrder(ctx context.Context, in *CreateReq, opts ...client.CallOption) (*CreateResp, error)
 	GetUserOrder(ctx context.Context, in *GetReq, opts ...client.CallOption) (*GetResp, error)
 	StateOrder(ctx context.Context, in *StateReq, opts ...client.CallOption) (*StateResp, error)
+	PutComment(ctx context.Context, in *CommentReq, opts ...client.CallOption) (*CommentResp, error)
 }
 
 type orderService struct {
@@ -87,12 +88,23 @@ func (c *orderService) StateOrder(ctx context.Context, in *StateReq, opts ...cli
 	return out, nil
 }
 
+func (c *orderService) PutComment(ctx context.Context, in *CommentReq, opts ...client.CallOption) (*CommentResp, error) {
+	req := c.c.NewRequest(c.name, "Order.PutComment", in)
+	out := new(CommentResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Order service
 
 type OrderHandler interface {
 	CreateOrder(context.Context, *CreateReq, *CreateResp) error
 	GetUserOrder(context.Context, *GetReq, *GetResp) error
 	StateOrder(context.Context, *StateReq, *StateResp) error
+	PutComment(context.Context, *CommentReq, *CommentResp) error
 }
 
 func RegisterOrderHandler(s server.Server, hdlr OrderHandler, opts ...server.HandlerOption) error {
@@ -100,6 +112,7 @@ func RegisterOrderHandler(s server.Server, hdlr OrderHandler, opts ...server.Han
 		CreateOrder(ctx context.Context, in *CreateReq, out *CreateResp) error
 		GetUserOrder(ctx context.Context, in *GetReq, out *GetResp) error
 		StateOrder(ctx context.Context, in *StateReq, out *StateResp) error
+		PutComment(ctx context.Context, in *CommentReq, out *CommentResp) error
 	}
 	type Order struct {
 		order
@@ -122,4 +135,8 @@ func (h *orderHandler) GetUserOrder(ctx context.Context, in *GetReq, out *GetRes
 
 func (h *orderHandler) StateOrder(ctx context.Context, in *StateReq, out *StateResp) error {
 	return h.OrderHandler.StateOrder(ctx, in, out)
+}
+
+func (h *orderHandler) PutComment(ctx context.Context, in *CommentReq, out *CommentResp) error {
+	return h.OrderHandler.PutComment(ctx, in, out)
 }

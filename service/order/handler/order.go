@@ -71,3 +71,18 @@ func (o Order) StateOrder(ctx context.Context, req *order.StateReq, resp *order.
 
 	return nil
 }
+
+// 发表订单评论
+
+func (o Order) PutComment(ctx context.Context, req *order.CommentReq, resp *order.CommentResp) error {
+	err := model.CommentOrder(req.Id, req.Comment)
+	if err != nil{
+		fmt.Println("发表评论错误：",err)
+		resp.Errno = utils.RECODE_DBWRITERR
+		resp.Errmsg = utils.RecodeText(utils.RECODE_DBWRITERR)
+		return err
+	}
+	resp.Errno = utils.RECODE_OK
+	resp.Errmsg = utils.RECODE_DBWRITERR
+	return nil
+}

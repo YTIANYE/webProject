@@ -8,6 +8,7 @@ service Order {
 	rpc CreateOrder(CreateReq) returns (CreateResp) {}
 	rpc GetUserOrder(GetReq) returns (GetResp) {}
 	rpc StateOrder(StateReq) returns (StateResp) {}
+	rpc PutComment(CommentReq) returns (CommentResp) {}
 }
 
 
@@ -66,6 +67,17 @@ message StateReq {
 }
 
 message StateResp {
+	string errno = 1;
+	string errmsg = 2;
+}
+
+// 发布评论
+message CommentReq{
+	string id = 1;
+	string comment = 2;
+}
+
+message CommentResp{
 	string errno = 1;
 	string errmsg = 2;
 }

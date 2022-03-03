@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"github.com/go-log/log"
 	"github.com/gomodule/redigo/redis"
 	"service/order/proto/order"
 	"strconv"
@@ -137,4 +138,11 @@ func StateOrder(action, reason, id string) error {
 		//表示房东不同意订单  如果拒单把拒绝的原因写到comment中
 		return db.Updates(map[string]interface{}{"status":"REJECTED","comment":reason}).Error
 	}
+}
+
+// 评论订单
+
+func CommentOrder(id, comment string) error{
+	log.Log("comment:", comment)
+	return GlobalConn.Model(new(OrderHouse)).Where("id = ?", id).Update(map[string]interface{}{"status":"COMPLETE","comment":comment}).Error
 }
